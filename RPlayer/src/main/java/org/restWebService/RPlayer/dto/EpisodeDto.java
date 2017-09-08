@@ -1,16 +1,19 @@
-package org.restWebService.RPlayer.domain;
+package org.restWebService.RPlayer.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-
-@Entity
-public class Chapter extends DomainEntity {
+public class EpisodeDto extends Dto {
 	
+	private Long idSeason;
 	private String name;
 	private Integer number;
 	private String path;
-	@ManyToOne
-	private Season season;
+	
+	public Long getIdSeason() {
+		return idSeason;
+	}
+	
+	public void setIdSeason(Long idSeason) {
+		this.idSeason = idSeason;
+	}
 	
 	public String getName() {
 		return name;
@@ -31,17 +34,9 @@ public class Chapter extends DomainEntity {
 	public String getPath() {
 		return path;
 	}
-
+	
 	public void setPath(String path) {
 		this.path = path;
-	}
-
-	public Season getSeason() {
-		return season;
-	}
-	
-	public void setSeason(Season season) {
-		this.season = season;
 	}
 
 }
