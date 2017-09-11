@@ -23,6 +23,11 @@ public class FilmController {
 		return filmService.findAllOrderByNameAsc();
 	}
 	
+	@RequestMapping(value = "/findByIdFilmTypeOrderByNameAsc/{idFilmType}", method = RequestMethod.GET)
+	public List<FilmDto> findByIdFilmTypeOrderByNameAsc(@PathVariable("idFilmType") Long idFilmType){
+		return filmService.findByIdFilmTypeOrderByNameAsc(idFilmType);
+	}
+	
 	@RequestMapping(value = "/findOne/{idFilm}", method = RequestMethod.GET)
 	public FilmDto findOne(@PathVariable("idFilm") Long idFilm){
 		return filmService.findOne(idFilm);

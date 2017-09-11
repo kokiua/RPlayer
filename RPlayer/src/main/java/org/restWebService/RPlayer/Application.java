@@ -38,6 +38,8 @@ public class Application {
 //              registry.addMapping("/player/addPlayerToTeam/*/*");
 //              registry.addMapping("/player/findListPlayerToAddTeam/*");
 //              registry.addMapping("/match/create");
+            	registry.addMapping("/filmType/findAllOrderByDescriptionAsc");
+            	registry.addMapping("/film/findByIdFilmTypeOrderByNameAsc/*");
             }
         };
     }

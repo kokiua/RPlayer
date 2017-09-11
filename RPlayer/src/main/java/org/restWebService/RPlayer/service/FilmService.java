@@ -65,6 +65,22 @@ public class FilmService {
 		FilmDto res = filmConverter.convertEntityToDto(entity);
 		return res;
 	}
+	
+	/**
+	 * Devuelve las peliculas de un genero determinado, si el genero es 0 devolvera todas
+	 * @param idFilmType
+	 * @return
+	 */
+	public List<FilmDto> findByIdFilmTypeOrderByNameAsc(Long idFilmType){
+		List<Film> entities = new ArrayList<>();
+		if(idFilmType==null || idFilmType.equals(0l)){
+			entities = filmRepository.findAllOrderByNameAsc();
+		}else{
+			entities = filmRepository.findByIdFilmTypeOrderByNameAsc(idFilmType);
+		}
+		List<FilmDto> res = filmConverter.convertListEntityToListDto(entities);
+		return res;
+	}
 
 	/**
 	 * Almacena un Film en la base de datos

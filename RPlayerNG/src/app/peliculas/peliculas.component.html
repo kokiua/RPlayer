@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3">
+      <h2>Género:</h2>
+      <div class="list-group">
+        <button type="button" class="list-group-item" [ngClass]="{'active': typeFilmSelected == 0 }" (click)="changeTypeFilmSelected(0)"> Todos </button>
+        <button type="button" *ngFor="let ft of listFilmType" class="list-group-item" [ngClass]="{'active': typeFilmSelected == ft.id }" (click)="changeTypeFilmSelected(ft.id)"> {{ft.description}} </button>
+      </div>
+    </div>
+
+
+    <div class="col-md-3">
+      <h2>Películas:</h2>
+      <div class="list-group">
+        <button type="button" *ngFor="let f of listFilm" class="list-group-item"> {{f.name}} </button>
+      </div>
+    </div>
+
+  </div> <!-- termina row-->
+
+</div> <!-- termina container-->
