@@ -16,15 +16,27 @@ export class FilmService {
   }
 
   /**
-   * Devuelve las peliculas de un tipo determinado, si es 0 devolverá todas
-   * @param idFilmType
+   * Devuelve todas las peliulas ordenadas por nombre asc
    * @returns {Observable<R|T>}
    */
-  findByIdFilmTypeOrderByNameAsc(idFilmType: any): Observable<String[]> {
-    const url = Constants.API_ENDPOINT + 'film/findByIdFilmTypeOrderByNameAsc/' + idFilmType;
+  findAllOrderByNameAsc(): Observable<String[]> {
+    const url = Constants.API_ENDPOINT + 'film/findAllOrderByNameAsc';
     return this.http.get(url)
       .map((response: Response) => response.json())
       .catch(error => Promise.reject(error));
   }
+
+  /**
+   * Devuelve la película por su id
+   * @param idFilm
+   * @returns {Observable<R|T>}
+   */
+  findOne(idFilm: any): Observable<String[]> {
+    const url = Constants.API_ENDPOINT + 'film/findOne/' + idFilm;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 
 }
