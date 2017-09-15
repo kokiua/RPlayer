@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilmTypeService, FilmService } from '../_services/index';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
@@ -18,10 +19,13 @@ export class PeliculasComponent implements OnInit {
   listFilm: any;
   // Filtro por el nombre
   filtroName: any;
+  // Modal
+  public modalRef: BsModalRef;
 
   constructor(
     private filmTypeService: FilmTypeService,
-    private filmService: FilmService
+    private filmService: FilmService,
+    private modalService: BsModalService
   ) {
     console.log('Constructor PeliculasComponent');
     // Cargamos los tipos de peliculas
@@ -92,6 +96,16 @@ export class PeliculasComponent implements OnInit {
         }
       }
     }
+  }
+
+  /**
+   * Abrir modal
+   * @param {TemplateRef<any>} template
+   * @param idFilm
+   */
+  public openModal(template, idFilm) {
+    console.log('Abrimos modal para la film: ' + idFilm);
+    this.modalRef = this.modalService.show(template);
   }
 
 }
