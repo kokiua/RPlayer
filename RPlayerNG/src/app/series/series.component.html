@@ -1,1 +1,39 @@
 <div> <h1>Series</h1></div>
+<!--<div class="row">
+   <div class="col-md-4">
+     <div class="form-group">
+       <label for="image">Imagen</label>
+       <input id="image" name="image" type="file" (change)="chargeImage($event)"/>
+     </div>
+   </div>
+   <div class="col-md-7 col-md-offset-1 imageBorder" *ngIf="imageAMostrar">
+     <img width="200" [src]="imageAMostrar">
+   </div>
+ </div>
+
+
+
+ // Eventhandler for file input.
+  chargeImage(imageInput: Event) {
+    const target = (<HTMLInputElement>imageInput.target);
+    if (target.files && target.files[0]) {
+      // Imagen a premostrar
+      const reader = new FileReader();
+      reader.onload = (event: FileReaderEvent) => {
+        this.imageAMostrar = event.target.result;
+      };
+      reader.readAsDataURL(target.files[0]);
+      // Pasamos el array la imagen a array the bytes
+      const fileData = new Blob([target.files[0]]);
+      const imagea = this.image;
+      this.getBuffer(fileData).then(
+        data => {
+          this.image = data;
+          console.log(this.image);
+        },
+        error => {
+          console.log(error);
+        });
+    }
+  }
+ -->

@@ -9,8 +9,8 @@ public class FilmDto extends Dto {
 	private Date realeaseDate;
 	private Integer rate;
 	private String trailerUrl;
-	private Byte[] image;
-	private String path;
+	private byte[] image;
+	private String filmPath;
 	private FilmTypeDto filmTypeDto;
 	
 	public FilmDto(){
@@ -58,20 +58,20 @@ public class FilmDto extends Dto {
 		this.trailerUrl = trailerUrl;
 	}
 	
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 	
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	
-	public String getPath() {
-		return path;
+	public String getFilmPath() {
+		return filmPath;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setFilmPath(String filmPath) {
+		this.filmPath = filmPath;
 	}
 
 	public FilmTypeDto getFilmTypeDto() {

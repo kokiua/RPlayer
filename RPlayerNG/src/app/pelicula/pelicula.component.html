@@ -1,6 +1,6 @@
 <div class="container margint5">
 
-  <form (ngSubmit)="createFilm(createFilmForm)" #createFilmForm="ngForm">
+  <form (ngSubmit)="createFilm(createFilmForm)" #createFilmForm="ngForm" *ngIf="!okCreated">
 
     <div class="form-group">
       <label for="name">Name</label>
@@ -10,20 +10,14 @@
     </div>
 
     <div class="form-group">
-      <label for="path">Archivo</label>
-      <input id="path" name="path"type="file" [(ngModel)]="filmDto.path" #path="ngModel" required/>
-      <div *ngIf="(createFilmForm.submitted) && path.hasError('required')" class="alert alert-danger">Debe seleccionar una película</div>
-    </div>
-
-    <div class="form-group">
-      <label for="image">Imagen</label>
-      <input id="image" name="image"type="file" [(ngModel)]="filmDto.image" #image="ngModel"/>
-
+      <label for="filmPath">Ruta Película</label>
+      <input id="filmPath" name="filmPath" class="form-control" type="text" [(ngModel)]="filmDto.filmPath" #filmPath="ngModel" placeholder="Ruta Película" required/>
+      <div *ngIf="(filmPath.touched || createFilmForm.submitted) && filmPath.hasError('required')" class="alert alert-danger">La ruta de as palícula es obligatoria</div>
     </div>
 
     <div class="form-group">
       <label for="filmTypeDto">Género</label>
-      <select id="filmTypeDto" name="filmTypeDto" class="form-control" [(ngModel)]="filmDto.filmTypeDto.id" #filmTypeDto="ngModel" required>
+      <select id="filmTypeDto" name="filmTypeDto" class="form-control" [(ngModel)]="filmDto.filmTypeDto" #filmTypeDto="ngModel" required>
         <option [ngValue]="null">Seleccione Género</option>
         <option *ngFor="let ft of listFilmType" [ngValue]="ft.id">{{ft.description}}</option>
       </select>
@@ -51,12 +45,44 @@
     <div class="form-group">
       <label for="rate">Puntuación</label>
       <input id="rate" name="rate" class="form-control" type="number" [(ngModel)]="filmDto.rate" #rate="ngModel" min="0" max="10"/>
+      <div *ngIf="(rate.touched || createFilmForm.submitted) && (rate.hasError('min') || rate.hasError('max'))" class="alert alert-danger">La puntuación debe estar comprendida entre 0 y 10</div>
     </div>
 
+    <div class="alert alert-danger" *ngIf="errorCrearPelicula">{{errorCrearPelicula}}</div>
+
     <div class="form-group textAlignCenter">
-      <button class="btn btn-primary">Guardar</button>
+      <button [disabled]="loadingFilm" class="btn btn-primary">Guardar</button>
     </div>
 
   </form>
+
+  <div *ngIf="okCreated">
+    <div class="alert alert-success">La película se ha creado correctamente</div>
+
+
+    <div *ngIf="!okImageAdd">
+
+      <div class="alert alert-info">Si lo deseea puede añadir una imagen ahora</div>
+
+      <div class="form-group">
+        <label for="image">Imagen</label>
+        <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput>
+      </div>
+
+      <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
+        <img width="200" [src]="imageAMostrar">
+      </div>
+
+      <div class="form-group textAlignCenter" *ngIf="!okImageAdd">
+        <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Añadir Imagen</button>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+
+    </div>
+
+    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha añadido correctamente</div>
+
+  </div>
 
 </div>

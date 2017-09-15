@@ -104,7 +104,7 @@ public class FilmService {
 			if(filmDto.getDescription()==null || filmDto.getDescription().trim().equals("")){
 				errores.add("Se debe indicar la descripción de película");
 			}
-			if(filmDto.getPath()==null || filmDto.getPath().trim().equals("")){
+			if(filmDto.getFilmPath()==null || filmDto.getFilmPath().trim().equals("")){
 				errores.add("Se debe indicar la ruta del almacenamiento interna");
 			}
 			if(filmDto.getFilmTypeDto()==null || filmDto.getFilmTypeDto().getId()==null){
@@ -112,6 +112,25 @@ public class FilmService {
 			}
 		}
 		return errores;
+	}
+	
+	/**
+	 * Actualiza la imagen de una película
+	 * @param idFilm
+	 * @param image
+	 * @return
+	 */
+	public FilmDto uploadFilmImage(Long idFilm, byte[] image) {
+		FilmDto res = new FilmDto();
+		if(idFilm!=null) {
+			Film entity = filmRepository.findOne(idFilm);
+			if(entity!=null) {
+				entity.setImage(image);
+				Film entitySaved = filmRepository.save(entity);
+				res = filmConverter.convertEntityToDto(entitySaved);
+			}
+		}
+		return res;
 	}
 
 }

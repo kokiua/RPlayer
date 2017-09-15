@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -38,5 +38,27 @@ export class FilmService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Call to APIRest UPCOMPANY for creating a new company
+   * @param createCompanyForm
+   */
+  save(filmDto: any) {
+    const body = JSON.stringify(filmDto);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers: headers });
+    const url = Constants.API_ENDPOINT + 'film/save';
+    const response = this.http.post(url, body, options).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
+  /**
+   * Call to APIRest UPCOMPANY for creating a new company
+   * @param createCompanyForm
+   */
+  uploadImage(idFilm: any, imageFile: any) {
+    const url = Constants.API_ENDPOINT + 'film/uploadImage/' + idFilm;
+    const response = this.http.post(url, imageFile).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
 
 }

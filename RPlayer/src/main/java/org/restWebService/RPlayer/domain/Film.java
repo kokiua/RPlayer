@@ -3,7 +3,6 @@ package org.restWebService.RPlayer.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +16,7 @@ public class Film extends DomainEntity {
 	private Date realeaseDate;
 	private Integer rate;
 	private String trailerUrl;
-	private Byte[] image;
+	private byte[] image;
 	private String path;
 	@ManyToOne
 	private FilmType filmType;
@@ -26,7 +25,7 @@ public class Film extends DomainEntity {
 		super();
 	}
 	
-	public Film(String name, String description, Date realeaseDate, Integer rate, String trailerUrl, Byte[] image, String path, FilmType filmType) {
+	public Film(String name, String description, Date realeaseDate, Integer rate, String trailerUrl, byte[] image, String path, FilmType filmType) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -78,11 +77,11 @@ public class Film extends DomainEntity {
 		this.trailerUrl = trailerUrl;
 	}
 	
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 	
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	

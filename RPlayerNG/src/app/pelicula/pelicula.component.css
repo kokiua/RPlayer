@@ -1,0 +1,5 @@
+.imageBorder img {
+  padding:4px;
+  border:2px solid #021a40;
+  border-radius: 5%;
+}

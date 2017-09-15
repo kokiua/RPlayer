@@ -33,7 +33,7 @@ public class FilmConverter {
 			entity.setRate(dto.getRate());
 			entity.setTrailerUrl(dto.getTrailerUrl());
 			entity.setImage(dto.getImage());
-			entity.setPath(dto.getPath());
+			entity.setPath(dto.getFilmPath());
 			if(filmTypeDto!=null){
 				entity.setFilmType(filmTypeConverter.convertDtoToEntity(filmTypeDto));	
 			}
@@ -57,7 +57,7 @@ public class FilmConverter {
 			dto.setRate(entity.getRate());
 			dto.setTrailerUrl(entity.getTrailerUrl());
 			dto.setImage(entity.getImage());
-			dto.setPath(entity.getPath());
+			dto.setFilmPath(entity.getPath());
 			if(entity.getFilmType()!=null){
 				dto.setFilmTypeDto(filmTypeConverter.convertEntityToDto(entity.getFilmType()));	
 			}
