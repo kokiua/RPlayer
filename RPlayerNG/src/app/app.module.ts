@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { PeliculasComponent } from './peliculas/peliculas.component';
 import { SeriesComponent } from './series/series.component';
 import { PeliculaComponent } from './pelicula/pelicula.component';
+import { EditarPeliculaComponent } from './editarPelicula/editarPelicula.component';
 import { FilmTypeService, FilmService } from './_services/index';
 
 
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'peliculas', component: PeliculasComponent },
   { path: 'series', component: SeriesComponent },
   { path: 'pelicula', component: PeliculaComponent },
+  { path: 'editarPelicula/:idFilm', component: EditarPeliculaComponent },
   { path: '**', redirectTo: 'peliculas' }
 ];
 
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     AppComponent,
     PeliculasComponent,
     SeriesComponent,
-    PeliculaComponent
+    PeliculaComponent,
+    EditarPeliculaComponent
   ],
   imports: [
     FormsModule,

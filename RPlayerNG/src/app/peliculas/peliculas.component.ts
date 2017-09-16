@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FilmTypeService, FilmService } from '../_services/index';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
@@ -27,7 +28,8 @@ export class PeliculasComponent implements OnInit {
   constructor(
     private filmTypeService: FilmTypeService,
     private filmService: FilmService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router,
   ) {
     console.log('Constructor PeliculasComponent');
     // Cargamos los tipos de peliculas
@@ -84,7 +86,7 @@ export class PeliculasComponent implements OnInit {
       if (this.typeFilmSelected === 0) {
         this.listFilm = [];
         for (const film of this.listFullFilm) {
-          if (film.name.includes(this.filtroName)) {
+          if (film.name.toLowerCase().includes(this.filtroName.toLowerCase())) {
             this.listFilm.push(film);
           }
         }
@@ -102,15 +104,15 @@ export class PeliculasComponent implements OnInit {
 
   /**
    * Abrir modal
-   * @param {TemplateRef<any>} template
+   * @param {TemplateRef<any>} templateRef
    * @param idFilm
    */
-  public openModal(template, idFilm) {
+  public openModal(templateRef, idFilm) {
     // Recuperamos la film que se ha seleccionado
     this.filmService.findOne(idFilm).subscribe(
       data => {
         this.filmDto = data;
-        this.modalRef = this.modalService.show(template);
+        this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'gray modal-lg'}));
       },
       error => {
         console.log(error);
@@ -130,6 +132,14 @@ export class PeliculasComponent implements OnInit {
    */
   startFilm() {
     this.filmService.startFilm(this.filmDto.id).subscribe();
+  }
+
+  /**
+   * Redirige a la pelicula actual
+   */
+  goToEditFilm() {
+    this.modalRef.hide();
+    this.router.navigateByUrl('/editarPelicula/' + this.filmDto.id);
   }
 
 }

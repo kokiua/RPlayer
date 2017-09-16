@@ -1,29 +1,30 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { FilmTypeService, FilmService } from '../_services/index';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
 
 @Component({
-  templateUrl: './pelicula.component.html',
-  styleUrls: ['./pelicula.component.css']
+  templateUrl: './editarPelicula.component.html',
+  styleUrls: ['./editarPelicula.component.css']
 })
-export class PeliculaComponent implements OnInit {
+export class EditarPeliculaComponent implements OnInit {
 
   // Modelo para crear la película
   filmDto: any = {filmTypeDto: null};
   // Listado de tipos de peliculas
   listFilmType: any;
-  // Activara y desactivara el boton de guardar pelicula cuando se esté creando
+  // Activara y desactivara el boton de guardar pelicula cuando se esté editando
   loadingFilm = false;
-  // Si la pelicula se ha creado correctamente pondremos un mensaje y permitiremos añadir imagen
-  okCreated = false;
-  // Error al crear pelicula
-  errorCrearPelicula: any;
+  // Si la pelicula se ha editado correctamente pondremos un mensaje y permitiremos añadir imagen
+  okSaveFilm = false;
+  // Error al editar pelicula
+  errorEditarPelicula: any;
   // Referencia
   @ViewChild('imageInput') inputEl: ElementRef;
   // Previsualizacino imagen
   imageAMostrar: any;
-  // Activara y desactivara el boton de guardar imagen cuando se esté creando
+  // Activara y desactivara el boton de guardar imagen cuando se esté editando
   loadingImage = false;
   // Imagen añadida correctamente
   okImageAdd = false;
@@ -31,45 +32,52 @@ export class PeliculaComponent implements OnInit {
   errorImage: any;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private filmService: FilmService,
     private filmTypeService: FilmTypeService
   ) {
-    console.log('Constructor PeliculaComponent');
+    console.log('Constructor EditPeliculaComponent');
+    // Recuperamos la pelicula de la URL
+    this.activatedRoute.params.subscribe(params => {
+      const idFilm = params['idFilm'];
+      // Recuperamos la pelicula al llamar al servicio
+      this.filmService.findOne(idFilm).subscribe(data => this.filmDto = data);
+    });
     // Cargamos los tipos de peliculas
     this.filmTypeService.findAllOrderByDescriptionAsc().subscribe(data => this.listFilmType = data);
   }
 
   ngOnInit() {
-    console.log('NgOnInit PeliculaComponent');
+    console.log('NgOnInit EditPeliculaComponent');
   }
 
   /**
    * Crea una pelicula si tiene todos los campos rellenados correctamente
    * @param createFilmForm
    */
-  createFilm(createFilmForm: FormGroup) {
-    console.log('Llamada a createFilm');
-    if (createFilmForm.valid) {
+  saveFilm(editFilmForm: FormGroup) {
+    console.log('Llamada a saveFilm');
+    if (editFilmForm.valid) {
       // Desactivaremos el botón de guardar hasta que la llamada al web service haya finalizado
       this.loadingFilm = true;
       // Creamos el filmTypeDto dentro de filmDto
-      const idFilmType = createFilmForm.value.filmTypeDto;
-      createFilmForm.value.filmTypeDto = {id: idFilmType};
-      this.filmService.save(createFilmForm.value)
+      const idFilmType = editFilmForm.value.filmTypeDto;
+      editFilmForm.value.filmTypeDto = {id: idFilmType};
+      console.log(editFilmForm.value);
+      this.filmService.save(editFilmForm.value)
         .subscribe(
           result => {
             this.filmDto = result;
-            // Estara bien creada si devuelve un id
-            this.okCreated = this.filmDto.id !== undefined && this.filmDto.id != null;
-            if (!this.okCreated) {
-              this.errorCrearPelicula = 'Se ha producido un error al crear la película';
+            this.okSaveFilm = this.filmDto.errores.length === 0;
+            if (!this.okSaveFilm) {
+              this.errorEditarPelicula = 'Se ha producido un error al editar la película';
             }
             this.loadingFilm = false;
             console.log('OK Film Created');
           },
           error => {
             this.loadingFilm = false;
-            this.errorCrearPelicula = 'Se ha producido un error al crear la película';
+            this.errorEditarPelicula = 'Se ha producido un error al editar la película';
             console.log(error);
           },
           () => {
@@ -78,7 +86,7 @@ export class PeliculaComponent implements OnInit {
           }
         );
     } else {
-      this.errorCrearPelicula = 'Se ha producido un error al crear la película';
+      this.errorEditarPelicula = 'Se ha producido un error al editar la película';
       console.log('Error en el formulario de crear film');
     }
   }

@@ -74,6 +74,13 @@ public class FilmService {
 		FilmDto res = new FilmDto();
 		List<String> errores = verificaFilmDto(filmDto);
 		if(errores.isEmpty()){
+			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
+			if(filmDto.getId()!=null) {
+				Film aux = filmRepository.findOne(filmDto.getId());
+				if(aux != null && aux.getImage()!=null) {
+					filmDto.setImage(aux.getImage());
+				}
+			}
 			FilmTypeDto filmTypeDto = filmTypeService.findOne(filmDto.getFilmTypeDto().getId());
 			Film entity = filmConverter.convertDtoToEntity(filmDto,filmTypeDto);
 			Film filmSaved = filmRepository.save(entity);
