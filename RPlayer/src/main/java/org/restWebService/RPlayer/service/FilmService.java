@@ -1,7 +1,6 @@
 package org.restWebService.RPlayer.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -35,11 +34,11 @@ public class FilmService {
 		if(cargaEntidades!=null && cargaEntidades.equals(Constantes.S_TRUE)){
 			filmRepository.deleteAll();
 			List<Film> listFilms = new ArrayList<>();
-			listFilms.add(new Film("Film 1", "Description Film 1", new Date(), 1, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(1l)));
-			listFilms.add(new Film("Film 2", "Description Film 2", new Date(), 2, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(2l)));
-			listFilms.add(new Film("Film 3", "Description Film 3", new Date(), 3, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(3l)));
-			listFilms.add(new Film("Film 4", "Description Film 4", new Date(), 4, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(4l)));
-			listFilms.add(new Film("Film 5", "Description Film 5", new Date(), 5, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(5l)));
+			listFilms.add(new Film("Film 1", "Description Film 1", 2010, 1, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(1l)));
+			listFilms.add(new Film("Film 2", "Description Film 2", 2011, 2, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(2l)));
+			listFilms.add(new Film("Film 3", "Description Film 3", 2012, 3, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(3l)));
+			listFilms.add(new Film("Film 4", "Description Film 4", 2013, 4, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(4l)));
+			listFilms.add(new Film("Film 5", "Description Film 5", 2014, 5, "https://www.youtube.com/watch?v=KT3LmKT7BR4", null, "C:/", filmTypeService.findOneEntity(5l)));
 			filmRepository.save(listFilms);
 			System.out.println("Se han cargado peliculas de prueba");
 		}

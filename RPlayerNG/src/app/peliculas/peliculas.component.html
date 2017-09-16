@@ -23,7 +23,7 @@
             <div class="col-md-8">
               <h4>{{f.name}}</h4>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4 textAlignRight">
               <h4>{{f.rate}}/10</h4>
             </div>
           </div>
@@ -38,13 +38,61 @@
 
 <!-- Modal -->
 <ng-template #template>
+
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
+    <h4 class="modal-title pull-left">{{filmDto.name}} ({{filmDto.releaseYear}})</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+
   <div class="modal-body">
-    Just a modal with a bunch of words inside, nothing serious.
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <img width="100%" height="280px" src="data:image/png;base64,{{filmDto.image}}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <h4>Puntuación:</h4>
+          </div>
+          <div class="col-md-5 textAlignRight">
+            <h4>{{filmDto.rate}}/10</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-default btn-block">Editar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Descripción:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p>{{filmDto.description}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-2">
+            <button class="btn btn-danger" [disabled]="!filmDto.trailerUrl" (click)="openTrailerURL()">Ver Trailer</button>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-success" (click)="startFilm()">Ver Película</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </ng-template>

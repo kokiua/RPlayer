@@ -29,7 +29,7 @@ public class FilmConverter {
 			entity.setVersion(dto.getVersion());
 			entity.setName(dto.getName());
 			entity.setDescription(dto.getDescription());
-			entity.setRealeaseDate(dto.getRealeaseDate());
+			entity.setReleaseYear(dto.getReleaseYear());
 			entity.setRate(dto.getRate());
 			entity.setTrailerUrl(dto.getTrailerUrl());
 			entity.setImage(dto.getImage());
@@ -53,7 +53,7 @@ public class FilmConverter {
 			dto.setVersion(entity.getVersion());
 			dto.setName(entity.getName());
 			dto.setDescription(entity.getDescription());
-			dto.setRealeaseDate(entity.getRealeaseDate());
+			dto.setReleaseYear(entity.getReleaseYear());
 			dto.setRate(entity.getRate());
 			dto.setTrailerUrl(entity.getTrailerUrl());
 			dto.setImage(entity.getImage());

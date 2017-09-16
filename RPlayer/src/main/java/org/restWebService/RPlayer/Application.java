@@ -43,6 +43,7 @@ public class Application {
             	registry.addMapping("/film/findOne/*");
             	registry.addMapping("/film/save");
             	registry.addMapping("/film/uploadImage/*");
+            	registry.addMapping("/film/startFilm/*");
             }
         };
     }

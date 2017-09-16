@@ -61,4 +61,16 @@ export class FilmService {
     return response;
   }
 
+  /**
+   * Inicializa una pelicula
+   * @param idFilm
+   * @returns {Observable<R|T>}
+   */
+  startFilm(idFilm: any) {
+    const url = Constants.API_ENDPOINT + 'film/startFilm/' + idFilm;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }

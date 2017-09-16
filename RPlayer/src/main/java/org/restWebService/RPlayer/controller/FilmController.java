@@ -48,5 +48,21 @@ public class FilmController {
 		}
 		return res;
 	}
+	
+	@RequestMapping(value = "/startFilm/{idFilm}", method = RequestMethod.GET)
+	public FilmDto startFilm(@PathVariable("idFilm") Long idFilm){
+		FilmDto dto = filmService.findOne(idFilm);
+		if(dto!=null && dto.getFilmPath()!=null) {
+			ProcessBuilder pb = new ProcessBuilder("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", dto.getFilmPath());
+			try {
+				pb.start();
+			} catch (IOException e) {
+				dto.getErrores().add("Se ha producido un error al abrir el video");
+				System.err.println("Se ha producido un error al intentar abrir el video");
+				e.printStackTrace();
+			}
+		}		
+		return dto;
+	}
 
 }

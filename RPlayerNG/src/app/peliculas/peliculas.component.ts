@@ -20,7 +20,9 @@ export class PeliculasComponent implements OnInit {
   // Filtro por el nombre
   filtroName: any;
   // Modal
-  public modalRef: BsModalRef;
+  modalRef: BsModalRef;
+  // Pelicula seleccionada
+  filmDto: any;
 
   constructor(
     private filmTypeService: FilmTypeService,
@@ -104,8 +106,30 @@ export class PeliculasComponent implements OnInit {
    * @param idFilm
    */
   public openModal(template, idFilm) {
-    console.log('Abrimos modal para la film: ' + idFilm);
-    this.modalRef = this.modalService.show(template);
+    // Recuperamos la film que se ha seleccionado
+    this.filmService.findOne(idFilm).subscribe(
+      data => {
+        this.filmDto = data;
+        this.modalRef = this.modalService.show(template);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  /**
+   * Abre la direccion del trailer
+   */
+  openTrailerURL() {
+    window.open(this.filmDto.trailerUrl);
+  }
+
+  /**
+   * Inicializa el video de la pelicula seleccionada en vlc servidor
+   */
+  startFilm() {
+    this.filmService.startFilm(this.filmDto.id).subscribe();
   }
 
 }

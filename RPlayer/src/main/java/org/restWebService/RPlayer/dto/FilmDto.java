@@ -1,12 +1,10 @@
 package org.restWebService.RPlayer.dto;
 
-import java.util.Date;
-
 public class FilmDto extends Dto {
 	
 	private String name;
 	private String description;
-	private Date realeaseDate;
+	private Integer releaseYear;
 	private Integer rate;
 	private String trailerUrl;
 	private byte[] image;
@@ -34,14 +32,14 @@ public class FilmDto extends Dto {
 		this.description = description;
 	}
 	
-	public Date getRealeaseDate() {
-		return realeaseDate;
+	public Integer getReleaseYear() {
+		return releaseYear;
 	}
-	
-	public void setRealeaseDate(Date realeaseDate) {
-		this.realeaseDate = realeaseDate;
+
+	public void setReleaseYear(Integer releaseYear) {
+		this.releaseYear = releaseYear;
 	}
-	
+
 	public Integer getRate() {
 		return rate;
 	}
