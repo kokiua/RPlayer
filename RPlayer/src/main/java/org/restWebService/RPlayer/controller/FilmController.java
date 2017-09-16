@@ -31,6 +31,11 @@ public class FilmController {
 		return filmService.findOne(idFilm);
 	}
 	
+	@RequestMapping(value = "/delete/{idFilm}", method = RequestMethod.GET)
+	public FilmDto delete(@PathVariable("idFilm") Long idFilm){
+		return filmService.delete(idFilm);
+	}
+	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public FilmDto save(@RequestBody FilmDto filmDto){
 		return filmService.save(filmDto);

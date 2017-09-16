@@ -1,8 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilmTypeService, FilmService } from '../_services/index';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   templateUrl: './editarPelicula.component.html',
@@ -30,18 +32,36 @@ export class EditarPeliculaComponent implements OnInit {
   okImageAdd = false;
   // Error al subir imagen
   errorImage: any;
+  // Modal
+  modalRef: BsModalRef;
+  // Indica si la pelicula ha sido eliminada
+  deleted = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private filmService: FilmService,
-    private filmTypeService: FilmTypeService
+    private filmTypeService: FilmTypeService,
+    private modalService: BsModalService,
   ) {
     console.log('Constructor EditPeliculaComponent');
     // Recuperamos la pelicula de la URL
     this.activatedRoute.params.subscribe(params => {
       const idFilm = params['idFilm'];
       // Recuperamos la pelicula al llamar al servicio
-      this.filmService.findOne(idFilm).subscribe(data => this.filmDto = data);
+      // this.filmDto = data
+      this.filmService.findOne(idFilm).subscribe(
+        data => {
+          this.filmDto = data;
+          if (!this.filmDto.id) {
+            this.router.navigateByUrl('/peliculas');
+          }
+        },
+        error => {
+          console.log(error);
+        }, () => {
+          console.log('Llamada terminada');
+        });
     });
     // Cargamos los tipos de peliculas
     this.filmTypeService.findAllOrderByDescriptionAsc().subscribe(data => this.listFilmType = data);
@@ -139,6 +159,32 @@ export class EditarPeliculaComponent implements OnInit {
           }
         );
     }
+  }
+
+  /**
+   * Abrir modal
+   * @param {TemplateRef<any>} templateRef
+   */
+  public openModal(templateRef) {
+    this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-sm'}));
+  }
+
+  /**
+   * Elimina una pelicula
+   */
+  deleteFilm() {
+    this.filmService.delete(this.filmDto.id).subscribe(
+      result => {
+        this.modalRef.hide();
+        this.deleted = true;
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Llamada terminada');
+      }
+    );
   }
 
 }

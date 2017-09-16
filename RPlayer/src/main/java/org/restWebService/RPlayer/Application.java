@@ -41,6 +41,7 @@ public class Application {
             	registry.addMapping("/filmType/findAllOrderByDescriptionAsc");
             	registry.addMapping("/film/findAllOrderByNameAsc");
             	registry.addMapping("/film/findOne/*");
+            	registry.addMapping("/film/delete/*");
             	registry.addMapping("/film/save");
             	registry.addMapping("/film/uploadImage/*");
             	registry.addMapping("/film/startFilm/*");

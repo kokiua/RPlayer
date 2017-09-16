@@ -139,4 +139,17 @@ public class FilmService {
 		return res;
 	}
 
+	/**
+	 * Elimina una pelicula
+	 * @param idFilm
+	 * @return
+	 */
+	public FilmDto delete(Long idFilm) {
+		FilmDto dto = new FilmDto();
+		if(idFilm!=null) {
+			filmRepository.delete(idFilm);
+		}
+		return dto;
+	}
+
 }

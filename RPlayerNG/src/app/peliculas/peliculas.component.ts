@@ -112,7 +112,7 @@ export class PeliculasComponent implements OnInit {
     this.filmService.findOne(idFilm).subscribe(
       data => {
         this.filmDto = data;
-        this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'gray modal-lg'}));
+        this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-lg'}));
       },
       error => {
         console.log(error);

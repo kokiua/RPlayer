@@ -73,4 +73,16 @@ export class FilmService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * elimina una pelicula
+   * @param idFilm
+   * @returns {Observable<R|T>}
+   */
+  delete(idFilm: any) {
+    const url = Constants.API_ENDPOINT + 'film/delete/' + idFilm;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }
