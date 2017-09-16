@@ -3,7 +3,7 @@
   <form *ngIf="!deleted">
     <div class="form-group">
       <label for="image">Imagen</label>
-      <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput>
+      <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput accept="image/*">
     </div>
 
     <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
