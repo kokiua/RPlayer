@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     BrowserModule,
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     RouterModule.forRoot(appRoutes),
   ],
   providers: [

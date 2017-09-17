@@ -7,8 +7,16 @@
   width: 80%;
 }
 
+.margint3 {
+  margin-top: 3%;
+}
+
 .margint5 {
   margin-top: 5%;
+}
+
+.margint30px {
+  margin-top: 30px;
 }
 
 .marginb4 {
