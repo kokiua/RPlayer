@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 	
 	@Query("SELECT e FROM Episode e WHERE e.season.id = ?1 ORDER BY e.number ASC")
-	public List<Episode> findByIdSeasonOrderByNumberAsc();
+	public List<Episode> findByIdSeasonOrderByNumberAsc(Long idSeason);
 
 }

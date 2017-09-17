@@ -5,7 +5,7 @@ public class EpisodeDto extends Dto {
 	private Long idSeason;
 	private String name;
 	private Integer number;
-	private String path;
+	private String episodePath;
 	
 	public Long getIdSeason() {
 		return idSeason;
@@ -30,13 +30,13 @@ public class EpisodeDto extends Dto {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
-	
-	public String getPath() {
-		return path;
-	}
-	
-	public void setPath(String path) {
-		this.path = path;
+
+	public String getEpisodePath() {
+		return episodePath;
 	}
 
+	public void setEpisodePath(String episodePath) {
+		this.episodePath = episodePath;
+	}
+	
 }

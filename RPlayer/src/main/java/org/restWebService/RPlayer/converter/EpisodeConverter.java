@@ -22,7 +22,7 @@ public class EpisodeConverter {
 			entity.setVersion(dto.getVersion());
 			entity.setName(dto.getName());
 			entity.setNumber(dto.getNumber());
-			entity.setPath(dto.getPath());
+			entity.setPath(dto.getEpisodePath());
 		}
 		return entity;
 	}
@@ -42,7 +42,7 @@ public class EpisodeConverter {
 			}
 			dto.setName(entity.getName());
 			dto.setNumber(entity.getNumber());
-			dto.setPath(entity.getPath());
+			dto.setEpisodePath(entity.getPath());
 		}
 		return dto;
 	}

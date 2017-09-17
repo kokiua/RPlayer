@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SerieService, SeasonService } from '../_services/index';
+import { Router } from '@angular/router';
+import { SerieService, SeasonService, EpisodeService } from '../_services/index';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
@@ -21,11 +22,19 @@ export class SeriesComponent implements OnInit {
   serieDto: any;
   // Lista de temporadas de una serie
   listSeason: any;
+  // Season active
+  seasonActive: any;
+  // Lista de episodios de una temporada
+  listEpisode: any;
+  // Episodio seleccionado
+  episodeActive: any;
 
   constructor(
     private serieService: SerieService,
     private modalService: BsModalService,
-    private seasonService: SeasonService
+    private seasonService: SeasonService,
+    private episodeService: EpisodeService,
+    private router: Router,
   ) {
    console.log('Constructor SeriesComponent');
     // Recuperamos todas las series
@@ -75,6 +84,15 @@ export class SeriesComponent implements OnInit {
         this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
           dataSeason => {
             this.listSeason = dataSeason;
+            if (this.listSeason.length > 0) {
+              // Por defecto seleccionaremos la primera temporada, y ningun episodio
+              this.seasonActive = 1;
+              this.episodeActive = 0;
+              // Recupero la primera temporada
+              this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
+                dataEpisode => this.listEpisode = dataEpisode
+              );
+            }
             this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-lg'}));
           }, errorSeason => {
             console.log(errorSeason);
@@ -85,6 +103,41 @@ export class SeriesComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  /**
+   * Cambiamos de temporada
+   * @param idSeason
+   * @param seasonNumber
+   */
+  changeSeason(idSeason, seasonNumber) {
+    this.episodeService.findByIdSeasonOrderByNumberAsc(idSeason).subscribe(
+      data => {
+        this.listEpisode = data;
+        this.seasonActive = seasonNumber;
+        // Al cambiar de temporada no habra ningun episodio seleccionado
+        this.episodeActive = 0;
+    }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  /**
+   * Inicializa el video del episodio seleccionado en en vlc servidor
+   * @param idEpisode
+   * @param episodeNumber
+   */
+  startEpisode(idEpisode, episodeNumber) {
+    this.episodeService.startEpisode(idEpisode).subscribe(data => this.episodeActive = episodeNumber);
+  }
+
+  /**
+   * Redirigimos a editar serie
+   */
+  goToEditSerie() {
+    this.modalRef.hide();
+    this.router.navigateByUrl('/editarSerie/' + this.serieDto.id);
   }
 
 }

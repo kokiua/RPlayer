@@ -28,9 +28,20 @@ public class EpisodeService {
 	public List<EpisodeDto> findByIdSeasonOrderByNumberAsc(Long idSeason){
 		List<EpisodeDto> res = new ArrayList<>();
 		if(idSeason!=null){
-			List<Episode> entities = episodeRepository.findByIdSeasonOrderByNumberAsc();
+			List<Episode> entities = episodeRepository.findByIdSeasonOrderByNumberAsc(idSeason);
 			res = episodeConverter.convertListEntityToListDto(entities);
 		}
+		return res;
+	}
+
+	/**
+	 * Devuelve una EpisodeDto dado su id
+	 * @param idEpisode
+	 * @return
+	 */
+	public EpisodeDto findOne(Long idEpisode) {
+		Episode entity = episodeRepository.findOne(idEpisode);
+		EpisodeDto res = episodeConverter.convertEntityToDto(entity);
 		return res;
 	}
 

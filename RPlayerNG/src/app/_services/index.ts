@@ -5,3 +5,4 @@ export * from './filmType.service';
 export * from './film.service';
 export * from './serie.service';
 export * from './season.service';
+export * from './episode.service';

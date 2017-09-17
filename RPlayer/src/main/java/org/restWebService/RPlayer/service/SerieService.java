@@ -7,9 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.restWebService.RPlayer.converter.SerieConverter;
+import org.restWebService.RPlayer.domain.Episode;
 import org.restWebService.RPlayer.domain.Season;
 import org.restWebService.RPlayer.domain.Serie;
 import org.restWebService.RPlayer.dto.SerieDto;
+import org.restWebService.RPlayer.repository.EpisodeRepository;
 import org.restWebService.RPlayer.repository.SeasonRepository;
 import org.restWebService.RPlayer.repository.SerieRepository;
 import org.restWebService.RPlayer.util.Constantes;
@@ -27,6 +29,10 @@ public class SerieService {
 	@Autowired
 	private SeasonRepository seasonRepository;
 	
+	// TODO quitar para produccion
+	@Autowired
+	private EpisodeRepository episodeRepository;
+	
 	@Resource
 	private SerieConverter serieConverter;
 	
@@ -34,6 +40,8 @@ public class SerieService {
 	public void cargaEntidadesPrueba(){
 		String cargaEntidades = Util.getProperties("application.properties").getProperty("carga.entidades.prueba");
 		if(cargaEntidades!=null && cargaEntidades.equals(Constantes.S_TRUE)){
+			episodeRepository.deleteAll();
+			seasonRepository.deleteAll();
 			serieRepository.deleteAll();
 			List<Serie> listSerie = new ArrayList<>();
 			listSerie.add(new Serie("Serie 1", 2010, "Serie 1", null));
@@ -46,7 +54,14 @@ public class SerieService {
 				List<Season> listSeason = new ArrayList<>();
 				listSeason.add(new Season(1, serie));
 				listSeason.add(new Season(2, serie));
-				seasonRepository.save(listSeason);
+				List<Season> listSeasonSaved = seasonRepository.save(listSeason);
+				// Por cada temporada voy a añadir 2 capitolos
+				for(Season season: listSeasonSaved) {
+					List<Episode> listEpisode = new ArrayList<>();
+					listEpisode.add(new Episode("Episodio 1", 1, "C:/1", season));
+					listEpisode.add(new Episode("Episodio 2", 2, "C:/1", season));
+					episodeRepository.save(listEpisode);
+				}
 			}
 			System.out.println("Se han cargado peliculas de prueba");
 		}

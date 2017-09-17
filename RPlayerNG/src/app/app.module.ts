@@ -14,7 +14,7 @@ import { PeliculasComponent } from './peliculas/peliculas.component';
 import { SeriesComponent } from './series/series.component';
 import { CrearPeliculaComponent } from './pelicula/crearPelicula.component';
 import { EditarPeliculaComponent } from './editarPelicula/editarPelicula.component';
-import { FilmTypeService, FilmService, SerieService, SeasonService } from './_services/index';
+import { FilmTypeService, FilmService, SerieService, SeasonService, EpisodeService } from './_services/index';
 
 
 const appRoutes: Routes = [
@@ -48,7 +48,8 @@ const appRoutes: Routes = [
     FilmTypeService,
     FilmService,
     SerieService,
-    SeasonService
+    SeasonService,
+    EpisodeService
   ],
   bootstrap: [AppComponent]
 })

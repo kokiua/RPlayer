@@ -29,7 +29,9 @@ public class Application {
             	registry.addMapping("/film/startFilm/*");
             	registry.addMapping("/serie/findAllOrderByNameAsc");
             	registry.addMapping("/serie/findOne/*");
-            	registry.addMapping("/season/findByIdSerieOrderByNumberASC/*");            	
+            	registry.addMapping("/season/findByIdSerieOrderByNumberASC/*");
+            	registry.addMapping("/episode/findByIdSeasonOrderByNumberAsc/*");
+            	registry.addMapping("/episode/startEpisode/*");
             }
         };
     }

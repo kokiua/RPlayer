@@ -12,6 +12,18 @@ public class Episode extends DomainEntity {
 	@ManyToOne
 	private Season season;
 	
+	public Episode() {
+		super();
+	}
+	
+	public Episode(String name, Integer number, String path, Season season) {
+		super();
+		this.name = name;
+		this.number = number;
+		this.path = path;
+		this.season = season;
+	}
+
 	public String getName() {
 		return name;
 	}
