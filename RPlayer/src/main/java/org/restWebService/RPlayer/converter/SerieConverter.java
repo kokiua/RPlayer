@@ -21,7 +21,7 @@ public class SerieConverter {
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getVersion());
 			entity.setName(dto.getName());
-			entity.setReleaseDate(dto.getReleaseDate());
+			entity.setReleaseYear(dto.getReleaseYear());
 			entity.setDescription(dto.getDescription());
 			entity.setImage(dto.getImage());
 		}
@@ -39,7 +39,7 @@ public class SerieConverter {
 			dto.setId(entity.getId());
 			dto.setVersion(entity.getVersion());
 			dto.setName(entity.getName());
-			dto.setReleaseDate(entity.getReleaseDate());
+			dto.setReleaseYear(entity.getReleaseYear());
 			dto.setDescription(entity.getDescription());
 			dto.setImage(entity.getImage());
 		}

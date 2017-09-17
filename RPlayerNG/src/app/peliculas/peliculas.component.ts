@@ -94,7 +94,7 @@ export class PeliculasComponent implements OnInit {
         // Si el filtro de nombre no es vacio y el de tipo no es 0, filtro por los dos tipos
         this.listFilm = [];
         for (const film of this.listFullFilm) {
-          if (film.filmTypeDto.id === this.typeFilmSelected &&  film.name.includes(this.filtroName)) {
+          if (film.filmTypeDto.id === this.typeFilmSelected &&  film.name.toLowerCase().includes(this.filtroName.toLowerCase())) {
             this.listFilm.push(film);
           }
         }

@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FilmService {
-  public token: string;
 
   constructor(private http: Http) {
   }

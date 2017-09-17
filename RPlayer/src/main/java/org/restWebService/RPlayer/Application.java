@@ -20,24 +20,6 @@ public class Application {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
             	// EJEMPLO DE CORS
-//            	registry.addMapping("/bUser/register");
-//              registry.addMapping("/login").exposedHeaders("Authorization");
-//              registry.addMapping("/bUser/findListBUserToBeAdministrator/*");
-//              registry.addMapping("/bUser/addBUserToOrganization/*/*");
-//              registry.addMapping("/organization/create");
-//              registry.addMapping("/organization/findAdministratedByPrincipal");
-//              registry.addMapping("/organization/findDetailedOrganizationByIdOrganization/*");
-//              registry.addMapping("/organization/deleteOrganizationByIdOrganization/*");
-//              registry.addMapping("/team/create");
-//              registry.addMapping("/team/findTeamsByIdOrganization/*");
-//              registry.addMapping("/team/findDetailedTeamByIdTeam/*");
-//              registry.addMapping("/team/deleteTeamByIdTeam/*");
-//              registry.addMapping("/player/create");
-//              registry.addMapping("/player/findPlayersByIdOrganization/*");
-//              registry.addMapping("/player/findPlayersByIdTeam/*");
-//              registry.addMapping("/player/addPlayerToTeam/*/*");
-//              registry.addMapping("/player/findListPlayerToAddTeam/*");
-//              registry.addMapping("/match/create");
             	registry.addMapping("/filmType/findAllOrderByDescriptionAsc");
             	registry.addMapping("/film/findAllOrderByNameAsc");
             	registry.addMapping("/film/findOne/*");
@@ -45,6 +27,9 @@ public class Application {
             	registry.addMapping("/film/save");
             	registry.addMapping("/film/uploadImage/*");
             	registry.addMapping("/film/startFilm/*");
+            	registry.addMapping("/serie/findAllOrderByNameAsc");
+            	registry.addMapping("/serie/findOne/*");
+            	registry.addMapping("/season/findByIdSerieOrderByNumberASC/*");            	
             }
         };
     }

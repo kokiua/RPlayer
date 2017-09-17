@@ -5,6 +5,7 @@ import java.util.List;
 import org.restWebService.RPlayer.dto.SerieDto;
 import org.restWebService.RPlayer.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,11 @@ public class SerieController {
 	@RequestMapping(value = "/findAllOrderByNameAsc", method = RequestMethod.GET)
 	public List<SerieDto> findAllOrderByNameAsc(){
 		return serieService.findAllOrderByNameAsc();
+	}
+	
+	@RequestMapping(value = "/findOne/{idSerie}", method = RequestMethod.GET)
+	public SerieDto findOne(@PathVariable("idSerie") Long idSerie){
+		return serieService.findOne(idSerie);
 	}
 
 }

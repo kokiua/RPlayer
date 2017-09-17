@@ -26,9 +26,6 @@ public class SeasonConverter {
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getId());
 			entity.setNumber(dto.getNumber());
-			entity.setName(dto.getName());
-			entity.setRealeaseDate(dto.getRealeaseDate());
-			entity.setFinishDate(dto.getFinishDate());
 		}
 		return entity;
 	}
@@ -47,9 +44,6 @@ public class SeasonConverter {
 				dto.setIdSerie(entity.getSerie().getId());
 			}
 			dto.setNumber(entity.getNumber());
-			dto.setName(entity.getName());
-			dto.setRealeaseDate(entity.getRealeaseDate());
-			dto.setFinishDate(entity.getFinishDate());
 		}
 		return dto;
 	}

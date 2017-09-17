@@ -1,20 +1,27 @@
 package org.restWebService.RPlayer.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Serie extends DomainEntity {
 	
 	private String name;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date releaseDate;
+	private Integer releaseYear;
 	private String description;
 	private Byte[] image;
 	
+	public Serie() {
+		super();
+	}
+	
+	public Serie(String name, Integer releaseYear, String description, Byte[] image) {
+		super();
+		this.name = name;
+		this.releaseYear = releaseYear;
+		this.description = description;
+		this.image = image;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -23,12 +30,12 @@ public class Serie extends DomainEntity {
 		this.name = name;
 	}
 	
-	public Date getReleaseDate() {
-		return releaseDate;
+	public Integer getReleaseYear() {
+		return releaseYear;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseYear(Integer releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	public String getDescription() {

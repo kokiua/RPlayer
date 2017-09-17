@@ -1,11 +1,9 @@
 package org.restWebService.RPlayer.dto;
 
-import java.util.Date;
-
 public class SerieDto extends Dto {
 	
 	private String name;
-	private Date releaseDate;
+	private Integer releaseYear;
 	private String description;
 	private Byte[] image;
 	
@@ -21,12 +19,12 @@ public class SerieDto extends Dto {
 		this.name = name;
 	}
 
-	public Date getReleaseDate() {
-		return releaseDate;
+	public Integer getReleaseYear() {
+		return releaseYear;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseYear(Integer releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	public String getDescription() {
