@@ -12,7 +12,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PeliculasComponent } from './peliculas/peliculas.component';
 import { SeriesComponent } from './series/series.component';
-import { PeliculaComponent } from './pelicula/pelicula.component';
+import { CrearPeliculaComponent } from './pelicula/crearPelicula.component';
 import { EditarPeliculaComponent } from './editarPelicula/editarPelicula.component';
 import { FilmTypeService, FilmService } from './_services/index';
 
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
   { path: '', component: PeliculasComponent },
   { path: 'peliculas', component: PeliculasComponent },
   { path: 'series', component: SeriesComponent },
-  { path: 'pelicula', component: PeliculaComponent },
+  { path: 'crearPelicula', component: CrearPeliculaComponent },
   { path: 'editarPelicula/:idFilm', component: EditarPeliculaComponent },
   { path: '**', redirectTo: 'peliculas' }
 ];
@@ -31,7 +31,7 @@ const appRoutes: Routes = [
     AppComponent,
     PeliculasComponent,
     SeriesComponent,
-    PeliculaComponent,
+    CrearPeliculaComponent,
     EditarPeliculaComponent
   ],
   imports: [

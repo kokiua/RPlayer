@@ -4,10 +4,10 @@ import { FilmTypeService, FilmService } from '../_services/index';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
 
 @Component({
-  templateUrl: './pelicula.component.html',
-  styleUrls: ['./pelicula.component.css']
+  templateUrl: './crearPelicula.component.html',
+  styleUrls: ['./crearPelicula.component.css']
 })
-export class PeliculaComponent implements OnInit {
+export class CrearPeliculaComponent implements OnInit {
 
   // Modelo para crear la película
   filmDto: any = {filmTypeDto: null};
@@ -34,13 +34,13 @@ export class PeliculaComponent implements OnInit {
     private filmService: FilmService,
     private filmTypeService: FilmTypeService
   ) {
-    console.log('Constructor PeliculaComponent');
+    console.log('Constructor CrearPeliculaComponent');
     // Cargamos los tipos de peliculas
     this.filmTypeService.findAllOrderByDescriptionAsc().subscribe(data => this.listFilmType = data);
   }
 
   ngOnInit() {
-    console.log('NgOnInit PeliculaComponent');
+    console.log('NgOnInit CrearPeliculaComponent');
   }
 
   /**
