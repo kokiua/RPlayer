@@ -12,7 +12,7 @@ export class PeliculasComponent implements OnInit {
 
   // Listado de tipos de peliculas
   listFilmType: any;
-  // Tipo de pelicula seleccionado
+  // Tipo de crearPelicula seleccionado
   typeFilmSelected: any;
   // Listado de peliculas
   listFullFilm: any;
@@ -34,7 +34,7 @@ export class PeliculasComponent implements OnInit {
     console.log('Constructor PeliculasComponent');
     // Cargamos los tipos de peliculas
     this.filmTypeService.findAllOrderByDescriptionAsc().subscribe(data => this.listFilmType = data);
-    // Por defecto no habrá ningún tipo de pelicula seleccionada
+    // Por defecto no habrá ningún tipo de crearPelicula seleccionada
     this.typeFilmSelected = 0;
     // Recuperamos todas las peliculas
     this.filmService.findAllOrderByNameAsc().subscribe(
@@ -128,14 +128,14 @@ export class PeliculasComponent implements OnInit {
   }
 
   /**
-   * Inicializa el video de la pelicula seleccionada en vlc servidor
+   * Inicializa el video de la crearPelicula seleccionada en vlc servidor
    */
   startFilm() {
     this.filmService.startFilm(this.filmDto.id).subscribe();
   }
 
   /**
-   * Redirige a la pelicula actual
+   * Redirige a la crearPelicula actual
    */
   goToEditFilm() {
     this.modalRef.hide();

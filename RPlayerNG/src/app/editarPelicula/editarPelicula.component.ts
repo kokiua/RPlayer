@@ -16,11 +16,11 @@ export class EditarPeliculaComponent implements OnInit {
   filmDto: any = {filmTypeDto: null};
   // Listado de tipos de peliculas
   listFilmType: any;
-  // Activara y desactivara el boton de guardar pelicula cuando se esté editando
+  // Activara y desactivara el boton de guardar crearPelicula cuando se esté editando
   loadingFilm = false;
-  // Si la pelicula se ha editado correctamente pondremos un mensaje y permitiremos añadir imagen
+  // Si la crearPelicula se ha editado correctamente pondremos un mensaje y permitiremos añadir imagen
   okSaveFilm = false;
-  // Error al editar pelicula
+  // Error al editar crearPelicula
   errorEditarPelicula: any;
   // Referencia
   @ViewChild('imageInput') inputEl: ElementRef;
@@ -34,7 +34,7 @@ export class EditarPeliculaComponent implements OnInit {
   errorImage: any;
   // Modal
   modalRef: BsModalRef;
-  // Indica si la pelicula ha sido eliminada
+  // Indica si la crearPelicula ha sido eliminada
   deleted = false;
 
   constructor(
@@ -45,10 +45,10 @@ export class EditarPeliculaComponent implements OnInit {
     private modalService: BsModalService,
   ) {
     console.log('Constructor EditPeliculaComponent');
-    // Recuperamos la pelicula de la URL
+    // Recuperamos la crearPelicula de la URL
     this.activatedRoute.params.subscribe(params => {
       const idFilm = params['idFilm'];
-      // Recuperamos la pelicula al llamar al servicio
+      // Recuperamos la crearPelicula al llamar al servicio
       // this.filmDto = data
       this.filmService.findOne(idFilm).subscribe(
         data => {
@@ -72,7 +72,7 @@ export class EditarPeliculaComponent implements OnInit {
   }
 
   /**
-   * Crea una pelicula si tiene todos los campos rellenados correctamente
+   * Crea una crearPelicula si tiene todos los campos rellenados correctamente
    * @param createFilmForm
    */
   saveFilm(editFilmForm: FormGroup) {
@@ -170,7 +170,7 @@ export class EditarPeliculaComponent implements OnInit {
   }
 
   /**
-   * Elimina una pelicula
+   * Elimina una crearPelicula
    */
   deleteFilm() {
     this.filmService.delete(this.filmDto.id).subscribe(

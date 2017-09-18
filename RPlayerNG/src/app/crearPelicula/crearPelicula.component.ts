@@ -13,11 +13,11 @@ export class CrearPeliculaComponent implements OnInit {
   filmDto: any = {filmTypeDto: null};
   // Listado de tipos de peliculas
   listFilmType: any;
-  // Activara y desactivara el boton de guardar pelicula cuando se esté creando
+  // Activara y desactivara el boton de guardar crearPelicula cuando se esté creando
   loadingFilm = false;
-  // Si la pelicula se ha creado correctamente pondremos un mensaje y permitiremos añadir imagen
+  // Si la crearPelicula se ha creado correctamente pondremos un mensaje y permitiremos añadir imagen
   okCreated = false;
-  // Error al crear pelicula
+  // Error al crear crearPelicula
   errorCrearPelicula: any;
   // Referencia
   @ViewChild('imageInput') inputEl: ElementRef;
@@ -44,7 +44,7 @@ export class CrearPeliculaComponent implements OnInit {
   }
 
   /**
-   * Crea una pelicula si tiene todos los campos rellenados correctamente
+   * Crea una crearPelicula si tiene todos los campos rellenados correctamente
    * @param createFilmForm
    */
   createFilm(createFilmForm: FormGroup) {

@@ -61,7 +61,7 @@ export class FilmService {
   }
 
   /**
-   * Inicializa una pelicula
+   * Inicializa una crearPelicula
    * @param idFilm
    * @returns {Observable<R|T>}
    */
@@ -73,7 +73,7 @@ export class FilmService {
   }
 
   /**
-   * elimina una pelicula
+   * elimina una crearPelicula
    * @param idFilm
    * @returns {Observable<R|T>}
    */

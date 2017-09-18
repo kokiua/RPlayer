@@ -12,8 +12,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PeliculasComponent } from './peliculas/peliculas.component';
 import { SeriesComponent } from './series/series.component';
-import { CrearPeliculaComponent } from './pelicula/crearPelicula.component';
+import { CrearPeliculaComponent } from './crearPelicula/crearPelicula.component';
 import { EditarPeliculaComponent } from './editarPelicula/editarPelicula.component';
+import { SerieComponent } from './serie/serie.component';
 import { FilmTypeService, FilmService, SerieService, SeasonService, EpisodeService } from './_services/index';
 
 
@@ -23,6 +24,8 @@ const appRoutes: Routes = [
   { path: 'series', component: SeriesComponent },
   { path: 'crearPelicula', component: CrearPeliculaComponent },
   { path: 'editarPelicula/:idFilm', component: EditarPeliculaComponent },
+  { path: 'crearSerie', component: SerieComponent },
+  { path: 'editarSerie/:idSerie', component: SerieComponent },
   { path: '**', redirectTo: 'peliculas' }
 ];
 
@@ -32,7 +35,8 @@ const appRoutes: Routes = [
     PeliculasComponent,
     SeriesComponent,
     CrearPeliculaComponent,
-    EditarPeliculaComponent
+    EditarPeliculaComponent,
+    SerieComponent
   ],
   imports: [
     FormsModule,
