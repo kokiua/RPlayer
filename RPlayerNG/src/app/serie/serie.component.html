@@ -1,5 +1,101 @@
 <div class="container margint30px">
 
-  <h1>Crear o Editar Serie en construcción...</h1>
+  <!-- Form para crear la serie -->
+  <form (ngSubmit)="createSerie(createSerieForm)" #createSerieForm="ngForm">
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" name="name" class="form-control" type="text" [(ngModel)]="serieDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
+      <div *ngIf="(name.touched || createSerieForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la serie es obligatorio</div>
+      <div *ngIf="(name.touched || createSerieForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la serie debe estar comprendido entre 1 y 100 caracteres</div>
+    </div>
+
+    <div class="form-group">
+      <label for="releaseYear">Año de Estreno</label>
+      <input id="releaseYear" name="releaseYear" class="form-control" type="number" [(ngModel)]="serieDto.releaseYear" #releaseYear="ngModel"/>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="serieDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
+      <div *ngIf="(description.touched || createSerieForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la serie es obligatorio</div>
+      <div *ngIf="(description.touched || createSerieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
+    </div>
+
+    <div class="form-group textAlignCenter">
+      <button [disabled]="loadingSerie" class="btn btn-primary">Guardar Serie</button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
+    <div class="alert alert-success" *ngIf="serieSaved">La serie se ha creado correctamente</div>
+
+  </form>
+
+  <!-- Form para subir imagen -->
+  <form *ngIf="serieSaved">
+    <div class="form-group">
+      <label for="image">Imagen</label>
+      <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput accept="image/*">
+    </div>
+
+    <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
+      <img width="270px" height="300px" [src]="imageAMostrar">
+    </div>
+
+    <div class="form-group textAlignCenter imageBorder" *ngIf="!imageAMostrar && serieDto.image">
+      <img width="270px" height="300px" src="data:image/png;base64,{{filmDto.image}}">
+    </div>
+
+    <div class="form-group textAlignCenter">
+      <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha editado correctamente</div>
+
+  </form>
+
+  <!-- Aquí iran las temporadas -->
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-warning btn-block">Añadir Temporada</button>
+    </div>
+  </div>
+
+  <div class="panel panel-default margint30px">
+    <div class="panel-body">
+
+      <!-- Botones para editar temporada -->
+      <div class="row">
+        <div class="col-md-2 col-md-offset-6">
+          <button class="btn btn-danger btn-block">Eliminar</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-warning btn-block">Editar</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary btn-block">Añadir Episodio</button>
+        </div>
+      </div>
+
+      <!-- Temporadas con sus capitulos -->
+      <div class="row">
+        <!-- Aqui van las temporadas -->
+        <div class="col-md-5">
+          <div class="list-group">
+            <button type="button" *ngFor="let sea of listSeason" [ngClass]="{'active': seasonActive == sea.number }" (click)="changeSeason(sea.id, sea.number)" class="list-group-item">Temporada {{sea.number}} </button>
+          </div>
+        </div>
+
+        <!-- Aqui van los capitulos -->
+        <div class="col-md-5">
+          <div class="list-group">
+            <button type="button" *ngFor="let e of listEpisode" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">{{e.number}} - {{e.name}} </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
