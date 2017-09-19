@@ -8,13 +8,13 @@ public class Serie extends DomainEntity {
 	private String name;
 	private Integer releaseYear;
 	private String description;
-	private Byte[] image;
+	private byte[] image;
 	
 	public Serie() {
 		super();
 	}
 	
-	public Serie(String name, Integer releaseYear, String description, Byte[] image) {
+	public Serie(String name, Integer releaseYear, String description, byte[] image) {
 		super();
 		this.name = name;
 		this.releaseYear = releaseYear;
@@ -46,11 +46,11 @@ public class Serie extends DomainEntity {
 		this.description = description;
 	}
 	
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 	
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	

@@ -87,5 +87,72 @@ public class SerieService {
 		SerieDto res = serieConverter.convertEntityToDto(entity);
 		return res;
 	}
+	
+	/**
+	 * Guarda o actualiza una película
+	 * @param serieDto
+	 * @return
+	 */
+	public SerieDto save(SerieDto serieDto) {
+		SerieDto res = new SerieDto();
+		List<String> errores = verificaSerieDto(serieDto);
+		if(errores.isEmpty()){
+			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
+			if(serieDto.getId()!=null) {
+				Serie aux = serieRepository.findOne(serieDto.getId());
+				if(aux != null && aux.getImage()!=null) {
+					serieDto.setImage(aux.getImage());
+				}
+			}
+			Serie entity = serieConverter.convertDtoToEntity(serieDto);
+			Serie serieSaved = serieRepository.save(entity);
+			res = serieConverter.convertEntityToDto(serieSaved);
+		}else{
+			if(serieDto!=null){
+				res = serieDto;
+			}
+			res.setErrores(errores);
+		}
+		return res;
+	}
+	
+	/**
+	 * Verifica que los datos de una serie estén correctamente rellenos
+	 * @param filmDto
+	 * @return
+	 */
+	private List<String> verificaSerieDto(SerieDto serieDto){
+		List<String> errores = new ArrayList<>();
+		if(serieDto==null){
+			errores.add("La serie no puede tener un valor nulo");
+		}else{
+			if(serieDto.getName()==null || serieDto.getName().trim().equals("")){
+				errores.add("Se debe indicar el título de la serie");
+			}
+			if(serieDto.getDescription()==null || serieDto.getDescription().trim().equals("")){
+				errores.add("Se debe indicar la descripción de la serie");
+			}
+		}
+		return errores;
+	}
+
+	/**
+	 * Actualiza la imagen de una serie
+	 * @param idSerie
+	 * @param image
+	 * @return
+	 */
+	public SerieDto uploadFilmImage(Long idSerie, byte[] image) {
+		SerieDto res = new SerieDto();
+		if(idSerie!=null) {
+			Serie entity = serieRepository.findOne(idSerie);
+			if(entity!=null) {
+				entity.setImage(image);
+				Serie entitySaved = serieRepository.save(entity);
+				res = serieConverter.convertEntityToDto(entitySaved);
+			}
+		}
+		return res;
+	}
 
 }

@@ -5,7 +5,7 @@ public class SerieDto extends Dto {
 	private String name;
 	private Integer releaseYear;
 	private String description;
-	private Byte[] image;
+	private byte[] image;
 	
 	public SerieDto(){
 		super();
@@ -35,11 +35,11 @@ public class SerieDto extends Dto {
 		this.description = description;
 	}
 
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	
