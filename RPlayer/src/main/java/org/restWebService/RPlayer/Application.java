@@ -33,9 +33,11 @@ public class Application {
             	registry.addMapping("/serie/delete/*");
             	registry.addMapping("/serie/uploadImage/*");
             	registry.addMapping("/season/findByIdSerieOrderByNumberASC/*");
+            	registry.addMapping("/season/save");
             	registry.addMapping("/season/delete/*");
             	registry.addMapping("/episode/findByIdSeasonOrderByNumberAsc/*");
             	registry.addMapping("/episode/startEpisode/*");
+            	registry.addMapping("/episode/save");
             	registry.addMapping("/episode/delete/*");
             }
         };

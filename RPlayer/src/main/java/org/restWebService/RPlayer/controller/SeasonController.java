@@ -6,6 +6,7 @@ import org.restWebService.RPlayer.dto.SeasonDto;
 import org.restWebService.RPlayer.service.SeasonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,11 @@ public class SeasonController {
 	@RequestMapping(value = "/findByIdSerieOrderByNumberASC/{idSerie}", method = RequestMethod.GET)
 	public List<SeasonDto> findByIdSerieOrderByNumberASC(@PathVariable("idSerie") Long idSerie){
 		return seasonService.findByIdSerieOrderByNumberASC(idSerie);
+	}
+	
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public SeasonDto save(@RequestBody SeasonDto seasonDto){
+		return seasonService.save(seasonDto);
 	}
 	
 	@RequestMapping(value = "/delete/{idSeason}", method = RequestMethod.GET)

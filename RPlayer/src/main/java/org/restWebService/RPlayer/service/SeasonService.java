@@ -47,6 +47,48 @@ public class SeasonService {
 	}
 	
 	/**
+	 * Guarda o actualiza una Season
+	 * @param seasonDto
+	 * @return
+	 */
+	public SeasonDto save(SeasonDto seasonDto) {
+		SeasonDto res = new SeasonDto();
+		List<String> errores = verificaSeasonDto(seasonDto);
+		if(errores.isEmpty()){
+			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
+			Season entity = seasonConverter.convertDtoToEntity(seasonDto);
+			Season seasonSaved = seasonRepository.save(entity);
+			res = seasonConverter.convertEntityToDto(seasonSaved);
+		}else{
+			if(seasonDto!=null){
+				res = seasonDto;
+			}
+			res.setErrores(errores);
+		}
+		return res;
+	}
+	
+	/**
+	 * Verifica que los datos de una season estén correctamente rellenos
+	 * @param seasonDto
+	 * @return
+	 */
+	private List<String> verificaSeasonDto(SeasonDto seasonDto){
+		List<String> errores = new ArrayList<>();
+		if(seasonDto==null){
+			errores.add("El temporada no puede tener un valor nulo");
+		}else{
+			if(seasonDto.getIdSerie()==null){
+				errores.add("Se debe indicar la serie a la que pertenece");
+			}
+			if(seasonDto.getNumber()==null){
+				errores.add("Se debe indicar un número de temporada");
+			}
+		}
+		return errores;
+	}
+	
+	/**
 	 * Elimina un listado de entidades del tipo Season
 	 * @param listSeason
 	 */
