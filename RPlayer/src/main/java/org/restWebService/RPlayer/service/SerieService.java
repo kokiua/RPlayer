@@ -124,7 +124,7 @@ public class SerieService {
 	
 	/**
 	 * Verifica que los datos de una serie estén correctamente rellenos
-	 * @param filmDto
+	 * @param serieDto
 	 * @return
 	 */
 	private List<String> verificaSerieDto(SerieDto serieDto){

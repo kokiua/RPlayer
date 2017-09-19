@@ -50,6 +50,54 @@ public class EpisodeService {
 	}
 	
 	/**
+	 * Guarda o actualiza un Epsisode
+	 * @param episodeDto
+	 * @return
+	 */
+	public EpisodeDto save(EpisodeDto episodeDto) {
+		EpisodeDto res = new EpisodeDto();
+		List<String> errores = verificaEpisodeDto(episodeDto);
+		if(errores.isEmpty()){
+			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
+			Episode entity = episodeConverter.convertDtoToEntity(episodeDto);
+			Episode episodeSaved = episodeRepository.save(entity);
+			res = episodeConverter.convertEntityToDto(episodeSaved);
+		}else{
+			if(episodeDto!=null){
+				res = episodeDto;
+			}
+			res.setErrores(errores);
+		}
+		return res;
+	}
+	
+	/**
+	 * Verifica que los datos de un Episode estén correctamente rellenos
+	 * @param episodeDto
+	 * @return
+	 */
+	private List<String> verificaEpisodeDto(EpisodeDto episodeDto){
+		List<String> errores = new ArrayList<>();
+		if(episodeDto==null){
+			errores.add("El episodio no puede tener un valor nulo");
+		}else{
+			if(episodeDto.getIdSeason()==null){
+				errores.add("Se debe indicar la temporada a la que pertenece");
+			}
+			if(episodeDto.getName()==null || episodeDto.getName().trim().equals("")){
+				errores.add("Se debe indicar el título del episodio");
+			}
+			if(episodeDto.getEpisodePath()==null || episodeDto.getEpisodePath().trim().equals("")){
+				errores.add("Se debe indicar la ruta del almacenamiento interna del episodio");
+			}
+			if(episodeDto.getNumber()==null){
+				errores.add("Se debe indicar un número de episodio");
+			}
+		}
+		return errores;
+	}
+	
+	/**
 	 * Elimina un listado de entidades de tipo Episode
 	 * @param listEpisode
 	 */
