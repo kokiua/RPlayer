@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from '../utils/Constants';
 import { FilmTypeService, FilmService } from '../_services/index';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -45,16 +46,15 @@ export class EditarPeliculaComponent implements OnInit {
     private modalService: BsModalService,
   ) {
     console.log('Constructor EditPeliculaComponent');
-    // Recuperamos la crearPelicula de la URL
+    // Recuperamos la Film de la URL
     this.activatedRoute.params.subscribe(params => {
       const idFilm = params['idFilm'];
-      // Recuperamos la crearPelicula al llamar al servicio
-      // this.filmDto = data
+      // Recuperamos la pelicula al llamar al servicio
       this.filmService.findOne(idFilm).subscribe(
         data => {
           this.filmDto = data;
           if (!this.filmDto.id) {
-            this.router.navigateByUrl('/peliculas');
+            this.router.navigateByUrl(Constants.RUTA_LISTADO_PELICULAS);
           }
         },
         error => {

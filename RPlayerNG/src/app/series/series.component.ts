@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Constants } from '../utils/Constants';
 import { SerieService, SeasonService, EpisodeService } from '../_services/index';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -137,7 +138,7 @@ export class SeriesComponent implements OnInit {
    */
   goToEditSerie() {
     this.modalRef.hide();
-    this.router.navigateByUrl('/editarSerie/' + this.serieDto.id);
+    this.router.navigateByUrl(Constants.RUTA_EDITAR_SERIE + '/' + this.serieDto.id);
   }
 
 }

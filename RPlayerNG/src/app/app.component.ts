@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Constants } from './utils/Constants';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isCollapsed = true;
-  linkActive = 'peliculas';
+  linkActive = Constants.RUTA_LISTADO_PELICULAS;
 }

@@ -9,6 +9,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { RouterModule, Routes } from '@angular/router';
+import { Constants } from './utils/Constants';
+
 import { AppComponent } from './app.component';
 import { PeliculasComponent } from './peliculas/peliculas.component';
 import { SeriesComponent } from './series/series.component';
@@ -20,13 +22,13 @@ import { FilmTypeService, FilmService, SerieService, SeasonService, EpisodeServi
 
 const appRoutes: Routes = [
   { path: '', component: PeliculasComponent },
-  { path: 'peliculas', component: PeliculasComponent },
-  { path: 'series', component: SeriesComponent },
-  { path: 'crearPelicula', component: CrearPeliculaComponent },
-  { path: 'editarPelicula/:idFilm', component: EditarPeliculaComponent },
-  { path: 'crearSerie', component: SerieComponent },
-  { path: 'editarSerie/:idSerie', component: SerieComponent },
-  { path: '**', redirectTo: 'peliculas' }
+  { path: Constants.RUTA_LISTADO_PELICULAS, component: PeliculasComponent },
+  { path: Constants.RUTA_LISTADO_SERIES, component: SeriesComponent },
+  { path: Constants.RUTA_CREAR_PELICULA, component: CrearPeliculaComponent },
+  { path: Constants.RUTA_EDITAR_PELICULA + '/:idFilm', component: EditarPeliculaComponent },
+  { path: Constants.RUTA_CREAR_SERIE, component: SerieComponent },
+  { path: Constants.RUTA_EDITAR_SERIE + '/:idSerie', component: SerieComponent },
+  { path: '**', redirectTo: Constants.RUTA_LISTADO_PELICULAS }
 ];
 
 @NgModule({

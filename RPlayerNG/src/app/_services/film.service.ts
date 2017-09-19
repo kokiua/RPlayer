@@ -38,8 +38,8 @@ export class FilmService {
   }
 
   /**
-   * Call to APIRest UPCOMPANY for creating a new company
-   * @param createCompanyForm
+   * Call to save a Film
+   * @param filmDto
    */
   save(filmDto: any) {
     const body = JSON.stringify(filmDto);
@@ -51,8 +51,9 @@ export class FilmService {
   }
 
   /**
-   * Call to APIRest UPCOMPANY for creating a new company
-   * @param createCompanyForm
+   * Call to to upload an image of a film
+   * @param idFilm
+   * @param imageFile
    */
   uploadImage(idFilm: any, imageFile: any) {
     const url = Constants.API_ENDPOINT + 'film/uploadImage/' + idFilm;

@@ -1,13 +1,13 @@
 <div class="container margint30px">
 
   <!-- Form para crear la serie -->
-  <form (ngSubmit)="createSerie(createSerieForm)" #createSerieForm="ngForm">
+  <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm">
 
     <div class="form-group">
       <label for="name">Name</label>
       <input id="name" name="name" class="form-control" type="text" [(ngModel)]="serieDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
-      <div *ngIf="(name.touched || createSerieForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la serie es obligatorio</div>
-      <div *ngIf="(name.touched || createSerieForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la serie debe estar comprendido entre 1 y 100 caracteres</div>
+      <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la serie es obligatorio</div>
+      <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la serie debe estar comprendido entre 1 y 100 caracteres</div>
     </div>
 
     <div class="form-group">
@@ -18,8 +18,8 @@
     <div class="form-group">
       <label for="description">Descripción</label>
       <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="serieDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
-      <div *ngIf="(description.touched || createSerieForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la serie es obligatorio</div>
-      <div *ngIf="(description.touched || createSerieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
+      <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la serie es obligatorio</div>
+      <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
     </div>
 
     <div class="form-group textAlignCenter">
@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group textAlignCenter imageBorder" *ngIf="!imageAMostrar && serieDto.image">
-      <img width="270px" height="300px" src="data:image/png;base64,{{filmDto.image}}">
+      <img width="270px" height="300px" src="data:image/png;base64,{{serieDto.image}}">
     </div>
 
     <div class="form-group textAlignCenter">
@@ -88,7 +88,7 @@
         </div>
 
         <!-- Aqui van los capitulos -->
-        <div class="col-md-5">
+        <div class="col-md-7">
           <div class="list-group">
             <button type="button" *ngFor="let e of listEpisode" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">{{e.number}} - {{e.name}} </button>
           </div>

@@ -37,4 +37,28 @@ export class SerieService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Call to APIRest to save a serie
+   * @param serieDto
+   */
+  save(serieDto: any) {
+    const body = JSON.stringify(serieDto);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers: headers });
+    const url = Constants.API_ENDPOINT + 'serie/save';
+    const response = this.http.post(url, body, options).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
+  /**
+   * Call to to upload an image of a serie
+   * @param idSerie
+   * @param imageFile
+   */
+  uploadImage(idSerie: any, imageFile: any) {
+    const url = Constants.API_ENDPOINT + 'serie/uploadImage/' + idSerie;
+    const response = this.http.post(url, imageFile).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
 }

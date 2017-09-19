@@ -38,4 +38,17 @@ export class EpisodeService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Call to APIRest to save a episode
+   * @param episodeDto
+   */
+  save(episodeDto: any) {
+    const body = JSON.stringify(episodeDto);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers: headers });
+    const url = Constants.API_ENDPOINT + 'episode/save';
+    const response = this.http.post(url, body, options).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
 }

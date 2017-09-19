@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Constants } from '../utils/Constants';
 import { FilmTypeService, FilmService } from '../_services/index';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
@@ -139,7 +140,7 @@ export class PeliculasComponent implements OnInit {
    */
   goToEditFilm() {
     this.modalRef.hide();
-    this.router.navigateByUrl('/editarPelicula/' + this.filmDto.id);
+    this.router.navigateByUrl(Constants.RUTA_EDITAR_PELICULA + '/' + this.filmDto.id);
   }
 
 }

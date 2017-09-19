@@ -26,4 +26,17 @@ export class SeasonService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Call to APIRest to save a season
+   * @param seasonDto
+   */
+  save(seasonDto: any) {
+    const body = JSON.stringify(seasonDto);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers: headers });
+    const url = Constants.API_ENDPOINT + 'season/save';
+    const response = this.http.post(url, body, options).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
 }
