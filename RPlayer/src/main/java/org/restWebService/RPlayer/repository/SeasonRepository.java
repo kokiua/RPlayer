@@ -13,5 +13,8 @@ public interface SeasonRepository extends JpaRepository<Season, Long> {
 	
 	@Query("SELECT s FROM Season s WHERE s.serie.id = ?1 ORDER BY s.number ASC")
 	public List<Season> findByIdSerieOrderByNumberASC(Long idSerie);
+	
+	@Query("SELECT s FROM Season s WHERE s.serie.id = ?1")
+	public List<Season> findByIdSerie(Long idSerie);
 
 }

@@ -30,10 +30,13 @@ public class Application {
             	registry.addMapping("/serie/findAllOrderByNameAsc");
             	registry.addMapping("/serie/findOne/*");
             	registry.addMapping("/serie/save");
+            	registry.addMapping("/serie/delete/*");
             	registry.addMapping("/serie/uploadImage/*");
             	registry.addMapping("/season/findByIdSerieOrderByNumberASC/*");
+            	registry.addMapping("/season/delete/*");
             	registry.addMapping("/episode/findByIdSeasonOrderByNumberAsc/*");
             	registry.addMapping("/episode/startEpisode/*");
+            	registry.addMapping("/episode/delete/*");
             }
         };
     }

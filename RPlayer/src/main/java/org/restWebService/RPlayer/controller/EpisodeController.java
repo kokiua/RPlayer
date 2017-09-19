@@ -23,6 +23,11 @@ public class EpisodeController {
 		return episodeService.findByIdSeasonOrderByNumberAsc(idSeason);
 	}
 	
+	@RequestMapping(value = "/delete/{idEpisode}", method = RequestMethod.GET)
+	public EpisodeDto delete(@PathVariable("idEpisode") Long idEpisode){
+		return episodeService.delete(idEpisode);
+	}
+	
 	@RequestMapping(value = "/startEpisode/{idEpisode}", method = RequestMethod.GET)
 	public EpisodeDto startFilm(@PathVariable("idEpisode") Long idEpisode){
 		EpisodeDto dto = episodeService.findOne(idEpisode);

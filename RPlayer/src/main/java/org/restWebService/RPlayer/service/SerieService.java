@@ -25,6 +25,12 @@ public class SerieService {
 	@Autowired
 	private SerieRepository serieRepository;
 	
+	@Autowired
+	private SeasonService seasonService;
+	
+	@Autowired
+	private EpisodeService episodeService;
+	
 	// TODO quitar para produccion
 	@Autowired
 	private SeasonRepository seasonRepository;
@@ -153,6 +159,30 @@ public class SerieService {
 			}
 		}
 		return res;
+	}
+	
+	/**
+	 * Elimina una serie dado su id
+	 * @param idSerie
+	 * @return
+	 */
+	public SerieDto delete(Long idSerie) {
+		SerieDto dto = new SerieDto();
+		if(idSerie!=null) {
+			// Eliminaremos la temporada y los episodios asociados a la serie
+			// Primero recuperamos las temporadas
+			List<Season> listSeason = seasonService.findEntitiesByIdSerie(idSerie);
+			// Por cada una de las temporadas recuperamos sus capitulos y los eliminamos
+			for(Season season: listSeason){
+				List<Episode> listEpisode = episodeService.findEntitiesByIdSeason(season.getId());
+				episodeService.deleteAllEntities(listEpisode);
+			}
+			// Eliminamos las temporadas
+			seasonService.deleteAllEntities(listSeason);
+			// Finalmente elminamos la serie
+			serieRepository.delete(idSerie);
+		}
+		return dto;
 	}
 
 }

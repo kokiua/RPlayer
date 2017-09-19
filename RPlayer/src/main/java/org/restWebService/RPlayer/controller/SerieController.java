@@ -36,6 +36,11 @@ public class SerieController {
 		return serieService.save(serieDto);
 	}
 	
+	@RequestMapping(value = "/delete/{idSerie}", method = RequestMethod.GET)
+	public SerieDto delete(@PathVariable("idSerie") Long idSerie){
+		return serieService.delete(idSerie);
+	}
+	
 	@RequestMapping(value = "/uploadImage/{idSerie}", method = RequestMethod.POST)
 	public SerieDto uploadImage(@PathVariable("idSerie") Long idSerie, @RequestParam MultipartFile file) {
 		SerieDto res = new SerieDto();

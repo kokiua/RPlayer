@@ -33,6 +33,10 @@ public class EpisodeService {
 		}
 		return res;
 	}
+	
+	public List<Episode> findEntitiesByIdSeason(Long idSeason){
+		return episodeRepository.findByIdSeason(idSeason);
+	}
 
 	/**
 	 * Devuelve una EpisodeDto dado su id
@@ -42,6 +46,27 @@ public class EpisodeService {
 	public EpisodeDto findOne(Long idEpisode) {
 		Episode entity = episodeRepository.findOne(idEpisode);
 		EpisodeDto res = episodeConverter.convertEntityToDto(entity);
+		return res;
+	}
+	
+	/**
+	 * Elimina un listado de entidades de tipo Episode
+	 * @param listEpisode
+	 */
+	public void deleteAllEntities(List<Episode> listEpisode){
+		episodeRepository.delete(listEpisode);
+	}
+	
+	/**
+	 * Elimina un episodio por su id
+	 * @param idEpisode
+	 * @return
+	 */
+	public EpisodeDto delete(Long idEpisode) {
+		EpisodeDto res = new EpisodeDto();
+		if(idEpisode!=null){
+			episodeRepository.delete(idEpisode);
+		}
 		return res;
 	}
 

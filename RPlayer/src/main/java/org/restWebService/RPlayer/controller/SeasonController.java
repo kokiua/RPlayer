@@ -21,5 +21,10 @@ public class SeasonController {
 	public List<SeasonDto> findByIdSerieOrderByNumberASC(@PathVariable("idSerie") Long idSerie){
 		return seasonService.findByIdSerieOrderByNumberASC(idSerie);
 	}
+	
+	@RequestMapping(value = "/delete/{idSeason}", method = RequestMethod.GET)
+	public SeasonDto delete(@PathVariable("idSeason") Long idSeason){
+		return seasonService.delete(idSeason);
+	}
 
 }
