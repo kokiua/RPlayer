@@ -80,6 +80,10 @@ export class EditarPeliculaComponent implements OnInit {
     if (editFilmForm.valid) {
       // Desactivaremos el botón de guardar hasta que la llamada al web service haya finalizado
       this.loadingFilm = true;
+      // Si tiene id y no tiene la version, es porque su valor vale 0
+      if (editFilmForm.value.id && !editFilmForm.value.version) {
+        editFilmForm.value.version = 0;
+      }
       // Creamos el filmTypeDto dentro de filmDto
       const idFilmType = editFilmForm.value.filmTypeDto;
       editFilmForm.value.filmTypeDto = {id: idFilmType};

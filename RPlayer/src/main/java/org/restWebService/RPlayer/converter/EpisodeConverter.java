@@ -20,7 +20,6 @@ public class EpisodeConverter {
 		if(dto!=null){
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getVersion());
-			entity.setName(dto.getName());
 			entity.setNumber(dto.getNumber());
 			entity.setPath(dto.getEpisodePath());
 		}
@@ -40,7 +39,6 @@ public class EpisodeConverter {
 			if(entity.getSeason()!=null){
 				dto.setIdSeason(entity.getSeason().getId());
 			}
-			dto.setName(entity.getName());
 			dto.setNumber(entity.getNumber());
 			dto.setEpisodePath(entity.getPath());
 		}

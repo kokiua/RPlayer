@@ -35,14 +35,14 @@ export class SerieComponent implements OnInit {
   errorImage: any;
   // Lista de temporadas
   listSeason: any;
-  // Temporada activa
-  seasonActive: any;
-  // Lista de capitulos
+  // Temporada seleccionada
+  seasonDtoSelected: any;
+  // Lista de episodios
   listEpisode: any;
-  // Episodio activo
-  episodeActive: any;
   // Modal
   modalRef: BsModalRef;
+  // Episodio
+  episodeDto: any = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -74,8 +74,8 @@ export class SerieComponent implements OnInit {
                   this.listSeason = dataSeason;
                   if (this.listSeason.length > 0) {
                     // Por defecto seleccionaremos la primera temporada, y ningun episodio
-                    this.seasonActive = 1;
-                    this.episodeActive = 0;
+                    this.seasonDtoSelected = this.listSeason[0];
+                    this.episodeDto = {};
                     // Recupero la primera temporada
                     this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
                       dataEpisode => this.listEpisode = dataEpisode
@@ -109,6 +109,10 @@ export class SerieComponent implements OnInit {
     if (serieForm.valid) {
       // Desactivaremos el botón de guardar hasta que la llamada al web service haya finalizado
       this.loadingSerie = true;
+      // Si tiene id y no tiene la version, es porque su valor vale 0
+      if (serieForm.value.id && !serieForm.value.version) {
+        serieForm.value.version = 0;
+      }
       this.serieService.save(serieForm.value)
         .subscribe(
           result => {
@@ -192,16 +196,15 @@ export class SerieComponent implements OnInit {
 
   /**
    * Cambiamos de temporada
-   * @param idSeason
-   * @param seasonNumber
+   * @param seasonDto
    */
-  changeSeason(idSeason, seasonNumber) {
-    this.episodeService.findByIdSeasonOrderByNumberAsc(idSeason).subscribe(
+  changeSeason(seasonDto) {
+    this.episodeService.findByIdSeasonOrderByNumberAsc(seasonDto.id).subscribe(
       data => {
         this.listEpisode = data;
-        this.seasonActive = seasonNumber;
+        this.seasonDtoSelected = seasonDto;
         // Al cambiar de temporada no habra ningun episodio seleccionado
-        this.episodeActive = 0;
+        this.episodeDto = {};
       }, error => {
         console.log(error);
       }
@@ -226,12 +229,13 @@ export class SerieComponent implements OnInit {
           this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
             dataSeason => {
               this.listSeason = dataSeason;
-              // Como acabamos de crear la temporada, no tendra ningun capitulo
+              // Como acabamos de crear la temporada, no tendra ningun episodio
+              this.seasonDtoSelected = {};
               this.listEpisode = [];
-              this.episodeActive = 0;
+              this.episodeDto = {};
               if (this.listSeason.length > 0) {
-                // Seleccionaremos la temporada que se ha guaraddo
-                this.seasonActive = seasonSaved.number;
+                // Seleccionaremos la temporada que se ha guardado, la última
+                this.seasonDtoSelected = this.listSeason[this.listSeason.length - 1];
               }
             }, errorSeason => {
               console.log(errorSeason);
@@ -261,13 +265,13 @@ export class SerieComponent implements OnInit {
           this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
             dataSeason => {
               this.listSeason = dataSeason;
-              // No se mostrará ningun capitulo a no ser que existan temporadas con capitulos
+              // No se mostrará ningun episodio a no ser que existan temporadas con episodios
               this.listEpisode = [];
-              this.episodeActive = 0;
+              this.episodeDto = {};
               if (this.listSeason.length > 0) {
-                // Por defecto seleccionaremos la primera temporada, y ningun episodio
-                this.seasonActive = 1;
-                // Recupero los capitulos de la primera temporada
+                // Por defecto seleccionaremos la ultima temporada, y ningun episodio
+                this.seasonDtoSelected = this.listSeason[this.listSeason.length - 1];
+                // Recupero los episodios de la primera temporada
                 this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
                   dataEpisode => this.listEpisode = dataEpisode
                 );
@@ -293,6 +297,63 @@ export class SerieComponent implements OnInit {
    */
   public openModal(referenciaModal) {
     this.modalRef = this.modalService.show(referenciaModal);
+  }
+
+  /**
+   * Llamada al servicio para guardar episodio
+   * @param episodeForm
+   */
+  saveEposide(episodeForm: FormGroup) {
+    console.log('Llamada a guardar nuevo episodio');
+    if (episodeForm.valid) {
+      // Si tiene id y no tiene la version, es porque su valor vale 0
+      if (episodeForm.value.id && !episodeForm.value.version) {
+        episodeForm.value.version = 0;
+      }
+      this.episodeService.save(episodeForm.value).subscribe(
+        data => {
+          this.modalRef.hide();
+          this.episodeDto = data;
+          if (this.episodeDto.errores.length > 0) {
+            console.log('Se han producido errores al guardar el episodio');
+          }
+          // Recupero los episodios de la temporada a la que este anyadiendo episodios
+          this.episodeService.findByIdSeasonOrderByNumberAsc(this.seasonDtoSelected.id).subscribe(
+            dataEpisode => this.listEpisode = dataEpisode
+          );
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          console.log('LLamada finalizada');
+        }
+      );
+    } else {
+      console.log('Se ha producido un error al guardar el capitulo');
+    }
+
+  }
+  /**
+   * Abrir el modal para anyadir episodios
+   */
+  openModalToAddEpisode(modalRef) {
+    this.episodeDto = {};
+    this.episodeDto.number = 1;
+    if (this.listEpisode.length > 0) {
+      this.episodeDto.number = this.listEpisode[this.listEpisode.length - 1].number + 1;
+    }
+    this.openModal(modalRef);
+  }
+
+  /**
+   * Abrir el modal para editar el episodio
+   * @param modalRef
+   * @param episodeDto
+   */
+  openModalToEditEpisode(modalRef, episodeDto) {
+    this.episodeDto = episodeDto;
+    this.openModal(modalRef);
   }
 
 }

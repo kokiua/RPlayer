@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.restWebService.RPlayer.converter.EpisodeConverter;
 import org.restWebService.RPlayer.domain.Episode;
+import org.restWebService.RPlayer.domain.Season;
 import org.restWebService.RPlayer.dto.EpisodeDto;
 import org.restWebService.RPlayer.repository.EpisodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class EpisodeService {
 	
 	@Autowired
 	private EpisodeRepository episodeRepository;
+	
+	@Autowired
+	private SeasonService seasonService;
 	
 	@Resource
 	private EpisodeConverter episodeConverter;
@@ -58,8 +62,9 @@ public class EpisodeService {
 		EpisodeDto res = new EpisodeDto();
 		List<String> errores = verificaEpisodeDto(episodeDto);
 		if(errores.isEmpty()){
-			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
 			Episode entity = episodeConverter.convertDtoToEntity(episodeDto);
+			Season season = seasonService.findOneEntity(episodeDto.getIdSeason());
+			entity.setSeason(season);
 			Episode episodeSaved = episodeRepository.save(entity);
 			res = episodeConverter.convertEntityToDto(episodeSaved);
 		}else{
@@ -83,9 +88,6 @@ public class EpisodeService {
 		}else{
 			if(episodeDto.getIdSeason()==null){
 				errores.add("Se debe indicar la temporada a la que pertenece");
-			}
-			if(episodeDto.getName()==null || episodeDto.getName().trim().equals("")){
-				errores.add("Se debe indicar el título del episodio");
 			}
 			if(episodeDto.getEpisodePath()==null || episodeDto.getEpisodePath().trim().equals("")){
 				errores.add("Se debe indicar la ruta del almacenamiento interna del episodio");

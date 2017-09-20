@@ -72,29 +72,26 @@
   <div class="panel panel-default margint30px" *ngIf="serieSaved">
     <div class="panel-body">
 
-      <!-- Botones para editar temporada -->
+      <!-- Botones si hay una temporada seleccionada -->
       <div class="row">
-        <div class="col-md-2 col-md-offset-8">
-          <button class="btn btn-danger btn-block">Eliminar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary btn-block">Añadir Episodio</button>
+        <div class="col-md-2 col-md-offset-10">
+          <button class="btn btn-primary btn-block" (click)="openModalToAddEpisode(modalEpisode)">Añadir Episodio</button>
         </div>
       </div>
 
-      <!-- Temporadas con sus capitulos -->
-      <div class="row">
+      <!-- Temporadas con sus episodios -->
+      <div class="row margint30px">
         <!-- Aqui van las temporadas -->
         <div class="col-md-5">
           <div class="list-group">
-            <button type="button" *ngFor="let sea of listSeason" [ngClass]="{'active': seasonActive == sea.number }" (click)="changeSeason(sea.id, sea.number)" class="list-group-item">Temporada {{sea.number}} </button>
+            <button type="button" *ngFor="let sea of listSeason" [ngClass]="{'active': seasonDtoSelected.id == sea.id }" (click)="changeSeason(sea)" class="list-group-item">Temporada {{sea.number}} </button>
           </div>
         </div>
 
-        <!-- Aqui van los capitulos -->
+        <!-- Aqui van los episodios -->
         <div class="col-md-7">
           <div class="list-group">
-            <button type="button" *ngFor="let e of listEpisode" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">{{e.number}} - {{e.name}} </button>
+            <button type="button" *ngFor="let e of listEpisode" [ngClass]="{'active': episodeDto.id == e.id }" (click)="openModalToEditEpisode(modalEpisode, e)" class="list-group-item">Episodio - {{e.number}} </button>
           </div>
         </div>
       </div>
@@ -124,5 +121,40 @@
       </div>
     </div>
   </div>
-  
+
+</ng-template>
+
+<!-- Modal Add Episode -->
+<ng-template #modalEpisode>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{serieDto.name}} - Temporada {{seasonDtoSelected.number}} - Episodio {{episodeDto.number}} </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form (ngSubmit)="saveEposide(episodeForm)" #episodeForm="ngForm">
+
+      <!-- la version y el id estaran presentes cuando el capitulo se esté editando -->
+      <input *ngIf="episodeDto.id" type="hidden" name="id" [(ngModel)]="episodeDto.id" #id="ngModel">
+      <input *ngIf="episodeDto.version" type="hidden" name="version" [(ngModel)]="episodeDto.version" #version="ngModel">
+
+      <input type="hidden" name="idSeason" [(ngModel)]="seasonDtoSelected.id" #idSeason="ngModel">
+      <input type="hidden" name="number" [(ngModel)]="episodeDto.number" #number="ngModel">
+
+      <div class="form-group">
+        <label for="episodePath">Ruta Episodio</label>
+        <input id="episodePath" name="episodePath" class="form-control" type="text" [(ngModel)]="episodeDto.episodePath" #episodePath="ngModel" placeholder="Ruta Episodio" required/>
+        <div *ngIf="(episodePath.touched || episodeForm.submitted) && episodePath.hasError('required')" class="alert alert-danger">La ruta del episodio es obligatoria</div>
+      </div>
+
+      <div class="form-group textAlignCenter">
+        <button type="submit" class="btn btn-primary">Guardar Capítulo</button>
+      </div>
+
+    </form>
+  </div>
+
 </ng-template>

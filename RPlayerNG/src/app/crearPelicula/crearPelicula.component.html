@@ -12,7 +12,7 @@
     <div class="form-group">
       <label for="filmPath">Ruta Película</label>
       <input id="filmPath" name="filmPath" class="form-control" type="text" [(ngModel)]="filmDto.filmPath" #filmPath="ngModel" placeholder="Ruta Película" required/>
-      <div *ngIf="(filmPath.touched || createFilmForm.submitted) && filmPath.hasError('required')" class="alert alert-danger">La ruta de as palícula es obligatoria</div>
+      <div *ngIf="(filmPath.touched || createFilmForm.submitted) && filmPath.hasError('required')" class="alert alert-danger">La ruta de LA palícula es obligatoria</div>
     </div>
 
     <div class="form-group">

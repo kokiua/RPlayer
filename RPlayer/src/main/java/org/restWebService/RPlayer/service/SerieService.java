@@ -64,8 +64,8 @@ public class SerieService {
 				// Por cada temporada voy a añadir 2 capitolos
 				for(Season season: listSeasonSaved) {
 					List<Episode> listEpisode = new ArrayList<>();
-					listEpisode.add(new Episode("Episodio 1", 1, "C:/1", season));
-					listEpisode.add(new Episode("Episodio 2", 2, "C:/1", season));
+					listEpisode.add(new Episode(1, "C:/1", season));
+					listEpisode.add(new Episode(2, "C:/1", season));
 					episodeRepository.save(listEpisode);
 				}
 			}

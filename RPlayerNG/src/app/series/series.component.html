@@ -45,11 +45,11 @@
         </div>
       </div>
 
-      <!-- Aqui van los capitulos -->
+      <!-- Aqui van los episodios -->
       <div class="col-md-5">
-        <h3>Capítulos:</h3>
+        <h3>Episodios:</h3>
         <div class="list-group">
-          <button type="button" *ngFor="let e of listEpisode" (click)="startEpisode(e.id, e.number)" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">{{e.number}} - {{e.name}} </button>
+          <button type="button" *ngFor="let e of listEpisode" (click)="startEpisode(e.id, e.number)" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">Episodio - {{e.number}} </button>
         </div>
       </div>
 

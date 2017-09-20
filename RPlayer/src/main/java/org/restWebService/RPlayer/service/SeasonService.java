@@ -43,6 +43,15 @@ public class SeasonService {
 	}
 	
 	/**
+	 * Devuelve una Season por su id
+	 * @param idSeason
+	 * @return
+	 */
+	public Season findOneEntity(Long idSeason){
+		return seasonRepository.findOne(idSeason);
+	}
+	
+	/**
 	 * Devuelve las season de una determinada serie 
 	 * @return
 	 */

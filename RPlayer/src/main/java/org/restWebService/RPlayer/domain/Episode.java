@@ -6,7 +6,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Episode extends DomainEntity {
 	
-	private String name;
 	private Integer number;
 	private String path;
 	@ManyToOne
@@ -16,20 +15,11 @@ public class Episode extends DomainEntity {
 		super();
 	}
 	
-	public Episode(String name, Integer number, String path, Season season) {
+	public Episode(Integer number, String path, Season season) {
 		super();
-		this.name = name;
 		this.number = number;
 		this.path = path;
 		this.season = season;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public Integer getNumber() {
