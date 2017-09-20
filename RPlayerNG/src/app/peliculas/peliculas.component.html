@@ -2,34 +2,49 @@
   <div class="row">
 
     <div class="col-md-3">
-      <h2>Género:</h2>
-      <div class="list-group">
-        <button type="button" class="list-group-item" [ngClass]="{'active': typeFilmSelected == 0 }" (click)="changeTypeFilmSelected(0)"> Todos </button>
-        <button type="button" *ngFor="let ft of listFilmType" class="list-group-item" [ngClass]="{'active': typeFilmSelected == ft.id }" (click)="changeTypeFilmSelected(ft.id)"> {{ft.description}} </button>
+
+      <div class="panel">
+        <div class="panel-body">
+
+          <h2>Género:</h2>
+          <div class="list-group">
+            <button type="button" class="list-group-item" [ngClass]="{'active': typeFilmSelected == 0 }" (click)="changeTypeFilmSelected(0)"> Todos </button>
+            <button type="button" *ngFor="let ft of listFilmType" class="list-group-item" [ngClass]="{'active': typeFilmSelected == ft.id }" (click)="changeTypeFilmSelected(ft.id)"> {{ft.description}} </button>
+          </div>
+
+        </div>
       </div>
+
     </div>
 
     <div class="col-md-8 col-md-offset-1">
-      <div class="row">
-        <div class="col-md-12">
-          <input type="text" placeholder="Título" [(ngModel)]="filtroName" (keyup)="filterFilmsByIdTypeFilmAndName()" class="form-control width100 marginb4">
-        </div>
-      </div>
 
-      <div class="row">
-        <div *ngFor="let f of listFilm" class="col-md-4 marginb4">
-          <img *ngIf="!f.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, f.id)">
-          <img *ngIf="f.image" width="100%" height="240px" src="data:image/png;base64,{{f.image}}" (click)="openModal(template, f.id)">
+      <div class="panel">
+        <div class="panel-body">
+
           <div class="row">
-            <div class="col-md-8">
-              <h4>{{f.name}}</h4>
-            </div>
-            <div class="col-md-4 textAlignRight">
-              <h4 *ngIf="f.rate">{{f.rate}}/10</h4>
+            <div class="col-md-12">
+              <input type="text" placeholder="Título" [(ngModel)]="filtroName" (keyup)="filterFilmsByIdTypeFilmAndName()" class="form-control width100 marginb4">
             </div>
           </div>
+
+          <div class="row">
+            <div *ngFor="let f of listFilm" class="col-md-4 marginb4">
+              <img *ngIf="!f.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, f.id)">
+              <img *ngIf="f.image" width="100%" height="240px" src="data:image/png;base64,{{f.image}}" (click)="openModal(template, f.id)">
+              <div class="row">
+                <div class="col-md-8">
+                  <h4>{{f.name}}</h4>
+                </div>
+                <div class="col-md-4 textAlignRight">
+                  <h4 *ngIf="f.rate">{{f.rate}}/10</h4>
+                </div>
+              </div>
+            </div>
+          </div> <!-- termina row-->
+
         </div>
-      </div> <!-- termina row-->
+      </div>
 
     </div>
 

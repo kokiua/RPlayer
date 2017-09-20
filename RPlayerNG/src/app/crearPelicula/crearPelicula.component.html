@@ -1,88 +1,96 @@
 <div class="container margint30px">
 
-  <form (ngSubmit)="createFilm(createFilmForm)" #createFilmForm="ngForm" *ngIf="!okCreated">
+  <div class="panel" *ngIf="!okCreated">
+    <div class="panel-body">
 
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input id="name" name="name" class="form-control" type="text" [(ngModel)]="filmDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
-      <div *ngIf="(name.touched || createFilmForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la película es obligatorio</div>
-      <div *ngIf="(name.touched || createFilmForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la película debe estar comprendido entre 1 y 100 caracteres</div>
+      <form (ngSubmit)="createFilm(createFilmForm)" #createFilmForm="ngForm">
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" class="form-control" type="text" [(ngModel)]="filmDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
+          <div *ngIf="(name.touched || createFilmForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la película es obligatorio</div>
+          <div *ngIf="(name.touched || createFilmForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la película debe estar comprendido entre 1 y 100 caracteres</div>
+        </div>
+
+        <div class="form-group">
+          <label for="filmPath">Ruta Película</label>
+          <input id="filmPath" name="filmPath" class="form-control" type="text" [(ngModel)]="filmDto.filmPath" #filmPath="ngModel" placeholder="Ruta Película" required/>
+          <div *ngIf="(filmPath.touched || createFilmForm.submitted) && filmPath.hasError('required')" class="alert alert-danger">La ruta de LA palícula es obligatoria</div>
+        </div>
+
+        <div class="form-group">
+          <label for="filmTypeDto">Género</label>
+          <select id="filmTypeDto" name="filmTypeDto" class="form-control" [(ngModel)]="filmDto.filmTypeDto" #filmTypeDto="ngModel" required>
+            <option [ngValue]="null">Seleccione Género</option>
+            <option *ngFor="let ft of listFilmType" [ngValue]="ft.id">{{ft.description}}</option>
+          </select>
+          <div *ngIf="(filmTypeDto.touched || createFilmForm.submitted) && filmTypeDto.hasError('required')" class="alert alert-danger">Debe seleccionar un género</div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción</label>
+          <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="filmDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
+          <div *ngIf="(description.touched || createFilmForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la película es obligatorio</div>
+          <div *ngIf="(description.touched || createFilmForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción debe estar comprendida entre 1 y 500 caracteres</div>
+        </div>
+
+        <div class="form-group">
+          <label for="releaseYear">Año de Estreno</label>
+          <input id="releaseYear" name="releaseYear" class="form-control" type="number" [(ngModel)]="filmDto.releaseYear" #releaseYear="ngModel"/>
+        </div>
+
+        <div class="form-group">
+          <label for="trailerUrl">Trailer URL</label>
+          <input id="trailerUrl" name="trailerUrl" class="form-control" type="text" [(ngModel)]="filmDto.trailerUrl" #trailerUrl="ngModel" placeholder="Trailer URL" [rangeLength]="[1, 100]"/>
+          <div *ngIf="(trailerUrl.touched || createFilmForm.submitted) && trailerUrl.hasError('rangeLength')" class="alert alert-danger">Trailer URL debe estar comprendido entre 1 y 100 caracteres</div>
+        </div>
+
+        <div class="form-group">
+          <label for="rate">Puntuación</label>
+          <input id="rate" name="rate" class="form-control" type="number" [(ngModel)]="filmDto.rate" #rate="ngModel" min="0" max="10"/>
+          <div *ngIf="(rate.touched || createFilmForm.submitted) && (rate.hasError('min') || rate.hasError('max'))" class="alert alert-danger">La puntuación debe estar comprendida entre 0 y 10</div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorCrearPelicula">{{errorCrearPelicula}}</div>
+
+        <div class="form-group textAlignCenter">
+          <button [disabled]="loadingFilm" class="btn btn-primary">Guardar</button>
+        </div>
+
+      </form>
+
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="filmPath">Ruta Película</label>
-      <input id="filmPath" name="filmPath" class="form-control" type="text" [(ngModel)]="filmDto.filmPath" #filmPath="ngModel" placeholder="Ruta Película" required/>
-      <div *ngIf="(filmPath.touched || createFilmForm.submitted) && filmPath.hasError('required')" class="alert alert-danger">La ruta de LA palícula es obligatoria</div>
-    </div>
+  <div class="panel" *ngIf="okCreated">
+    <div class="panel-body">
 
-    <div class="form-group">
-      <label for="filmTypeDto">Género</label>
-      <select id="filmTypeDto" name="filmTypeDto" class="form-control" [(ngModel)]="filmDto.filmTypeDto" #filmTypeDto="ngModel" required>
-        <option [ngValue]="null">Seleccione Género</option>
-        <option *ngFor="let ft of listFilmType" [ngValue]="ft.id">{{ft.description}}</option>
-      </select>
-      <div *ngIf="(filmTypeDto.touched || createFilmForm.submitted) && filmTypeDto.hasError('required')" class="alert alert-danger">Debe seleccionar un género</div>
-    </div>
+      <div class="alert alert-success">La película se ha creado correctamente</div>
 
-    <div class="form-group">
-      <label for="description">Descripción</label>
-      <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="filmDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
-      <div *ngIf="(description.touched || createFilmForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la película es obligatorio</div>
-      <div *ngIf="(description.touched || createFilmForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción debe estar comprendida entre 1 y 500 caracteres</div>
-    </div>
+      <div *ngIf="!okImageAdd">
 
-    <div class="form-group">
-      <label for="releaseYear">Año de Estreno</label>
-      <input id="releaseYear" name="releaseYear" class="form-control" type="number" [(ngModel)]="filmDto.releaseYear" #releaseYear="ngModel"/>
-    </div>
+        <div class="alert alert-info">Si lo deseea puede añadir una imagen ahora</div>
 
-    <div class="form-group">
-      <label for="trailerUrl">Trailer URL</label>
-      <input id="trailerUrl" name="trailerUrl" class="form-control" type="text" [(ngModel)]="filmDto.trailerUrl" #trailerUrl="ngModel" placeholder="Trailer URL" [rangeLength]="[1, 100]"/>
-      <div *ngIf="(trailerUrl.touched || createFilmForm.submitted) && trailerUrl.hasError('rangeLength')" class="alert alert-danger">Trailer URL debe estar comprendido entre 1 y 100 caracteres</div>
-    </div>
+        <div class="form-group">
+          <label for="image">Imagen</label>
+          <input id="image" type="file" multiple="false" (change)="chargeImage($event)" accept="image/*" #imageInput>
+        </div>
 
-    <div class="form-group">
-      <label for="rate">Puntuación</label>
-      <input id="rate" name="rate" class="form-control" type="number" [(ngModel)]="filmDto.rate" #rate="ngModel" min="0" max="10"/>
-      <div *ngIf="(rate.touched || createFilmForm.submitted) && (rate.hasError('min') || rate.hasError('max'))" class="alert alert-danger">La puntuación debe estar comprendida entre 0 y 10</div>
-    </div>
+        <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
+          <img width="270px" height="300px" [src]="imageAMostrar">
+        </div>
 
-    <div class="alert alert-danger" *ngIf="errorCrearPelicula">{{errorCrearPelicula}}</div>
+        <div class="form-group textAlignCenter" *ngIf="!okImageAdd">
+          <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Añadir Imagen</button>
+        </div>
 
-    <div class="form-group textAlignCenter">
-      <button [disabled]="loadingFilm" class="btn btn-primary">Guardar</button>
-    </div>
+        <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
 
-  </form>
-
-  <div *ngIf="okCreated">
-
-    <div class="alert alert-success">La película se ha creado correctamente</div>
-
-    <div *ngIf="!okImageAdd">
-
-      <div class="alert alert-info">Si lo deseea puede añadir una imagen ahora</div>
-
-      <div class="form-group">
-        <label for="image">Imagen</label>
-        <input id="image" type="file" multiple="false" (change)="chargeImage($event)" accept="image/*" #imageInput>
       </div>
 
-      <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
-        <img width="270px" height="300px" [src]="imageAMostrar">
-      </div>
-
-      <div class="form-group textAlignCenter" *ngIf="!okImageAdd">
-        <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Añadir Imagen</button>
-      </div>
-
-      <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+      <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha añadido correctamente</div>
 
     </div>
-
-    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha añadido correctamente</div>
-
   </div>
 
 </div>

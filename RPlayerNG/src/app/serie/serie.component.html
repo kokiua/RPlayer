@@ -1,88 +1,94 @@
 <div class="container margint30px">
 
   <!-- Form para crear la serie -->
-  <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm" *ngIf="!deletedSerie">
+  <div class="panel" *ngIf="!deletedSerie">
+    <div class="panel-body">
+      <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm">
 
-    <!-- la version y el id estaran presentes cuando la serie se este editando -->
-    <input *ngIf="serieDto.id" type="hidden" name="id" [(ngModel)]="serieDto.id" #id="ngModel">
-    <input *ngIf="serieDto.version" type="hidden" name="version" [(ngModel)]="serieDto.version" #version="ngModel">
+        <!-- la version y el id estaran presentes cuando la serie se este editando -->
+        <input *ngIf="serieDto.id" type="hidden" name="id" [(ngModel)]="serieDto.id" #id="ngModel">
+        <input *ngIf="serieDto.version" type="hidden" name="version" [(ngModel)]="serieDto.version" #version="ngModel">
 
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input id="name" name="name" class="form-control" type="text" [(ngModel)]="serieDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
-      <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la serie es obligatorio</div>
-      <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la serie debe estar comprendido entre 1 y 100 caracteres</div>
-    </div>
-
-    <div class="form-group">
-      <label for="releaseYear">Año de Estreno</label>
-      <input id="releaseYear" name="releaseYear" class="form-control" type="number" [(ngModel)]="serieDto.releaseYear" #releaseYear="ngModel"/>
-    </div>
-
-    <div class="form-group">
-      <label for="description">Descripción</label>
-      <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="serieDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
-      <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la serie es obligatorio</div>
-      <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
-    </div>
-
-    <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
-    <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col-md-3 col-md-offset-3 textAlignCenter">
-          <button type="button" [disabled]="!serieDto || !serieDto.id" (click)="openModal(modalDeleteSerie)" class="btn btn-danger btn-block">Eliminar Serie</button>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" class="form-control" type="text" [(ngModel)]="serieDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
+          <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('required')" class="alert alert-danger">El nombre de la serie es obligatorio</div>
+          <div *ngIf="(name.touched || serieForm.submitted) && name.hasError('rangeLength')" class="alert alert-danger">El nombre de la serie debe estar comprendido entre 1 y 100 caracteres</div>
         </div>
-        <div class="col-md-3 textAlignCenter">
-          <button type="submit" [disabled]="loadingSerie" class="btn btn-primary btn-block">Guardar Serie</button>
+
+        <div class="form-group">
+          <label for="releaseYear">Año de Estreno</label>
+          <input id="releaseYear" name="releaseYear" class="form-control" type="number" [(ngModel)]="serieDto.releaseYear" #releaseYear="ngModel"/>
         </div>
-      </div>
-    </div>
 
+        <div class="form-group">
+          <label for="description">Descripción</label>
+          <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="serieDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
+          <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('required')" class="alert alert-danger">La descripción de la serie es obligatorio</div>
+          <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
+        </div>
 
-  </form>
+        <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
+        <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
 
-  <!-- Form para subir imagen -->
-  <form *ngIf="serieSaved && !deletedSerie">
-    <div class="form-group">
-      <label for="image">Imagen</label>
-      <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput accept="image/*">
-    </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-3 col-md-offset-3 textAlignCenter">
+              <button type="button" [disabled]="!serieDto || !serieDto.id" (click)="openModal(modalDeleteSerie)" class="btn btn-danger btn-block">Eliminar Serie</button>
+            </div>
+            <div class="col-md-3 textAlignCenter">
+              <button type="submit" [disabled]="loadingSerie" class="btn btn-primary btn-block">Guardar Serie</button>
+            </div>
+          </div>
+        </div>
 
-    <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
-      <img width="270px" height="300px" [src]="imageAMostrar">
-    </div>
-
-    <div class="form-group textAlignCenter imageBorder" *ngIf="!imageAMostrar && serieDto.image">
-      <img width="270px" height="300px" src="data:image/png;base64,{{serieDto.image}}">
-    </div>
-
-    <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
-    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
-
-    <div class="form-group textAlignCenter">
-      <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
-    </div>
-
-  </form>
-
-  <!-- Aquí iran las temporadas -->
-  <div class="row" *ngIf="serieSaved && !deletedSerie">
-    <div class="col-md-3">
-      <button class="btn btn-warning btn-block" (click)="addSeason()">Añadir Temporada</button>
-    </div>
-    <div class="col-md-3">
-      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="openModalToDeleteSeason(modalDeleteSeason)">Eliminar Temporada</button>
+      </form>
     </div>
   </div>
 
-  <div class="panel panel-default margint30px" *ngIf="serieSaved && !deletedSerie">
+  <!-- Form para subir imagen -->
+  <div class="panel" *ngIf="serieSaved && !deletedSerie">
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label for="image">Imagen</label>
+          <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput accept="image/*">
+        </div>
+
+        <div class="form-group textAlignCenter imageBorder" *ngIf="imageAMostrar">
+          <img width="270px" height="300px" [src]="imageAMostrar">
+        </div>
+
+        <div class="form-group textAlignCenter imageBorder" *ngIf="!imageAMostrar && serieDto.image">
+          <img width="270px" height="300px" src="data:image/png;base64,{{serieDto.image}}">
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+        <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
+
+        <div class="form-group textAlignCenter">
+          <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <div class="panel panel-default" *ngIf="serieSaved && !deletedSerie">
     <div class="panel-body">
 
       <!-- Botones si hay una temporada seleccionada -->
-      <div class="row">
-        <div class="col-md-2 col-md-offset-8">
+      <div class="row margint30px">
+        <div class="col-md-2">
+          <button class="btn btn-warning btn-block" (click)="addSeason()">Añadir Temporada</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="openModalToDeleteSeason(modalDeleteSeason)">Eliminar Temporada</button>
+        </div>
+        <div class="col-md-2 col-md-offset-4">
           <button class="btn btn-warning btn-block" [disabled]="!seasonDtoSelected" (click)="openModalToAddEpisode(modalEpisode)">Añadir Episodio</button>
         </div>
         <div class="col-md-2">
@@ -93,14 +99,14 @@
       <!-- Temporadas con sus episodios -->
       <div class="row margint30px">
         <!-- Aqui van las temporadas -->
-        <div class="col-md-5">
+        <div class="col-md-4">
           <div class="list-group">
             <button type="button" *ngFor="let sea of listSeason" [ngClass]="{'active': seasonDtoSelected.id == sea.id }" (click)="changeSeason(sea)" class="list-group-item">Temporada {{sea.number}} </button>
           </div>
         </div>
 
         <!-- Aqui van los episodios -->
-        <div class="col-md-7">
+        <div class="col-md-8">
           <div class="list-group">
             <button type="button" *ngFor="let e of listEpisode" [ngClass]="{'active': episodeDto.id == e.id }" (click)="openModalToEditEpisode(modalEpisode, e)" class="list-group-item">Episodio - {{e.number}} </button>
           </div>
@@ -110,7 +116,11 @@
     </div>
   </div>
 
-  <div class="alert alert-success" *ngIf="deletedSerie">La serie se ha eliminado correctamente</div>
+  <div class="panel panel-default" *ngIf="deletedSerie">
+    <div class="panel-body">
+      <div class="alert alert-success" *ngIf="deletedSerie">La serie se ha eliminado correctamente</div>
+    </div>
+  </div>
 
 </div>
 
