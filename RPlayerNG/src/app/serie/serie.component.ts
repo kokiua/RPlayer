@@ -356,4 +356,41 @@ export class SerieComponent implements OnInit {
     this.openModal(modalRef);
   }
 
+  /**
+   * Abrir modal para confirmacion de eliminacion de episodio
+   * Se eliminara el ultimo de la temporada seleccionada
+   * @param modalRef
+   */
+  openModalToDeleteEpisode(modalRef) {
+    this.episodeDto = this.listEpisode[this.listEpisode.length - 1];
+    this.openModal(modalRef);
+  }
+
+  /**
+   * Elimina un episodio (el utlimo de la temporada que tengamos seleccionada
+   */
+  deleteEpisode() {
+    this.episodeService.delete(this.episodeDto.id).subscribe(
+      data => {
+        this.modalRef.hide();
+        // El episode se ha eliminado correctamente, actualizamos la lista de episodios
+        this.episodeService.findByIdSeasonOrderByNumberAsc(this.seasonDtoSelected.id).subscribe(
+          dataSeason => {
+            this.listEpisode = dataSeason;
+            // Ningun episodio seleccionado
+            this.episodeDto = {};
+          }, errorSeason => {
+            console.log(errorSeason);
+          }
+        );
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Llamada Finalizada');
+      }
+    );
+  }
+
 }

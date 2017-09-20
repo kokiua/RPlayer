@@ -51,4 +51,16 @@ export class EpisodeService {
     return response;
   }
 
+  /**
+   * elimina un episodio
+   * @param idEpisode
+   * @returns {Observable<R|T>}
+   */
+  delete(idEpisode: any) {
+    const url = Constants.API_ENDPOINT + 'episode/delete/' + idEpisode;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }
