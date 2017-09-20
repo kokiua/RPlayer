@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from '../utils/Constants';
 import { SerieService, SeasonService, EpisodeService } from '../_services/index';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   templateUrl: './serie.component.html',
@@ -39,10 +41,13 @@ export class SerieComponent implements OnInit {
   listEpisode: any;
   // Episodio activo
   episodeActive: any;
+  // Modal
+  modalRef: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private modalService: BsModalService,
     private serieService: SerieService,
     private seasonService: SeasonService,
     private episodeService: EpisodeService
@@ -54,8 +59,7 @@ export class SerieComponent implements OnInit {
       // Recuperamos idSerie de la URL
       this.activatedRoute.params.subscribe(params => {
         const idSerie = params['idSerie'];
-        // Recuperamos la crearPelicula al llamar al servicio
-        // this.filmDto = data
+        // Recuperamos la serie al llamar al servicio
         this.serieService.findOne(idSerie).subscribe(
           data => {
             this.serieDto = data;
@@ -248,10 +252,11 @@ export class SerieComponent implements OnInit {
    * Elimina la ultima temporada de la serie
    */
   deleteSeason() {
-    if (this.listSeason && this.listSeason.length > 0){
+    if (this.listSeason && this.listSeason.length > 0) {
       const idSeason = this.listSeason[this.listSeason.length - 1].id;
       this.seasonService.delete(idSeason).subscribe(
         result => {
+          this.modalRef.hide();
           // La sesion se ha eliminado correctamente correctamente
           this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
             dataSeason => {
@@ -280,6 +285,14 @@ export class SerieComponent implements OnInit {
         }
       );
     }
+  }
+
+  /**
+   * Abrir modal
+   * @param {TemplateRef<any>} referenciaModal
+   */
+  public openModal(referenciaModal) {
+    this.modalRef = this.modalService.show(referenciaModal);
   }
 
 }

@@ -26,12 +26,12 @@
       <div *ngIf="(description.touched || serieForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La descripción de la serie debe estar comprendida entre 1 y 500 caracteres</div>
     </div>
 
+    <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
+    <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
+
     <div class="form-group textAlignCenter">
       <button [disabled]="loadingSerie" class="btn btn-primary">Guardar Serie</button>
     </div>
-
-    <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
-    <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
 
   </form>
 
@@ -50,12 +50,12 @@
       <img width="270px" height="300px" src="data:image/png;base64,{{serieDto.image}}">
     </div>
 
+    <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
+
     <div class="form-group textAlignCenter">
       <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
     </div>
-
-    <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
-    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
 
   </form>
 
@@ -65,7 +65,7 @@
       <button class="btn btn-warning btn-block" (click)="addSeason()">Añadir Temporada</button>
     </div>
     <div class="col-md-3">
-      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="deleteSeason()">Eliminar Temporada</button>
+      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="openModal(modalDeleteSeason)">Eliminar Temporada</button>
     </div>
   </div>
 
@@ -103,3 +103,26 @@
   </div>
 
 </div>
+
+<!-- Modal eliminar temporada -->
+<ng-template #modalDeleteSeason>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">¿Desea eliminar la última temporada creada?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="modalRef.hide()" class="btn btn-primary btn-block">No</button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="deleteSeason()" class="btn btn-danger btn-block">Si</button>
+      </div>
+    </div>
+  </div>
+  
+</ng-template>

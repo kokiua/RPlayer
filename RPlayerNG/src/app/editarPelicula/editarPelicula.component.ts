@@ -43,7 +43,7 @@ export class EditarPeliculaComponent implements OnInit {
     private router: Router,
     private filmService: FilmService,
     private filmTypeService: FilmTypeService,
-    private modalService: BsModalService,
+    private modalService: BsModalService
   ) {
     console.log('Constructor EditPeliculaComponent');
     // Recuperamos la Film de la URL
