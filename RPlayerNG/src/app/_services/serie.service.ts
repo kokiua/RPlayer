@@ -61,4 +61,16 @@ export class SerieService {
     return response;
   }
 
+  /**
+   * elimina una serie
+   * @param idSerie
+   * @returns {Observable<R|T>}
+   */
+  delete(idSerie: any) {
+    const url = Constants.API_ENDPOINT + 'serie/delete/' + idSerie;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }

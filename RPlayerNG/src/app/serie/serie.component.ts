@@ -16,7 +16,7 @@ export class SerieComponent implements OnInit {
   // Modelo para crear la serie
   serieDto: any = {};
   // Indica si la serie ya esta guardada en bbdd
-  serieSaved = true;
+  serieSaved = false;
   // Indica si una serie se ha modificado correctamente
   serieModified = false;
   // Indica si se esta procesando el guardado de la serie
@@ -43,6 +43,8 @@ export class SerieComponent implements OnInit {
   modalRef: BsModalRef;
   // Episodio
   episodeDto: any = {};
+  // Serie eliminada
+  deletedSerie = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -122,9 +124,10 @@ export class SerieComponent implements OnInit {
             this.serieModified = this.serieSaved;
             if (!this.serieSaved) {
               this.errorCrearSerie = 'Se ha producido un error al guardar la seriea';
+            } else {
+              this.listSeason = [];
             }
             this.loadingSerie = false;
-            console.log('OK Serie Saved');
           },
           error => {
             this.loadingSerie = false;
@@ -253,42 +256,48 @@ export class SerieComponent implements OnInit {
   }
 
   /**
+   * Abre el modal para eliminar una temporada
+   * @param modalRef
+   */
+  openModalToDeleteSeason(modalRef) {
+    this.seasonDtoSelected =  this.listSeason[this.listSeason.length - 1];
+    this.openModal(modalRef);
+  }
+
+  /**
    * Elimina la ultima temporada de la serie
    */
   deleteSeason() {
-    if (this.listSeason && this.listSeason.length > 0) {
-      const idSeason = this.listSeason[this.listSeason.length - 1].id;
-      this.seasonService.delete(idSeason).subscribe(
-        result => {
-          this.modalRef.hide();
-          // La sesion se ha eliminado correctamente correctamente
-          this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
-            dataSeason => {
-              this.listSeason = dataSeason;
-              // No se mostrará ningun episodio a no ser que existan temporadas con episodios
-              this.listEpisode = [];
-              this.episodeDto = {};
-              if (this.listSeason.length > 0) {
-                // Por defecto seleccionaremos la ultima temporada, y ningun episodio
-                this.seasonDtoSelected = this.listSeason[this.listSeason.length - 1];
-                // Recupero los episodios de la primera temporada
-                this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
-                  dataEpisode => this.listEpisode = dataEpisode
-                );
-              }
-            }, errorSeason => {
-              console.log(errorSeason);
+    this.seasonService.delete(this.seasonDtoSelected.id).subscribe(
+      result => {
+        this.modalRef.hide();
+        // La sesion se ha eliminado correctamente correctamente
+        this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
+          dataSeason => {
+            this.listSeason = dataSeason;
+            // No se mostrará ningun episodio a no ser que existan temporadas con episodios
+            this.listEpisode = [];
+            this.episodeDto = {};
+            if (this.listSeason.length > 0) {
+              // Por defecto seleccionaremos la ultima temporada, y ningun episodio
+              this.seasonDtoSelected = this.listSeason[this.listSeason.length - 1];
+              // Recupero los episodios de la primera temporada
+              this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
+                dataEpisode => this.listEpisode = dataEpisode
+              );
             }
-          );
-        },
-        error => {
-          console.log(error);
-        },
-        () => {
-          console.log('Llamada terminada');
-        }
-      );
-    }
+          }, errorSeason => {
+            console.log(errorSeason);
+          }
+        );
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Llamada terminada');
+      }
+    );
   }
 
   /**
@@ -389,6 +398,24 @@ export class SerieComponent implements OnInit {
       },
       () => {
         console.log('Llamada Finalizada');
+      }
+    );
+  }
+
+  /**
+   * Realiza la llamada al servicio para eliminar una serie
+   */
+  deleteSerie() {
+    this.serieService.delete(this.serieDto.id).subscribe(
+      result => {
+        this.modalRef.hide();
+        this.deletedSerie = true;
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Llamada terminada');
       }
     );
   }

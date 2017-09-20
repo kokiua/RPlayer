@@ -1,7 +1,7 @@
 <div class="container margint30px">
 
   <!-- Form para crear la serie -->
-  <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm">
+  <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm" *ngIf="!deletedSerie">
 
     <!-- la version y el id estaran presentes cuando la serie se este editando -->
     <input *ngIf="serieDto.id" type="hidden" name="id" [(ngModel)]="serieDto.id" #id="ngModel">
@@ -29,14 +29,22 @@
     <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
     <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
 
-    <div class="form-group textAlignCenter">
-      <button [disabled]="loadingSerie" class="btn btn-primary">Guardar Serie</button>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-3 textAlignCenter">
+          <button type="button" [disabled]="!serieDto || !serieDto.id" (click)="openModal(modalDeleteSerie)" class="btn btn-danger btn-block">Eliminar Serie</button>
+        </div>
+        <div class="col-md-3 textAlignCenter">
+          <button type="submit" [disabled]="loadingSerie" class="btn btn-primary btn-block">Guardar Serie</button>
+        </div>
+      </div>
     </div>
+
 
   </form>
 
   <!-- Form para subir imagen -->
-  <form *ngIf="serieSaved">
+  <form *ngIf="serieSaved && !deletedSerie">
     <div class="form-group">
       <label for="image">Imagen</label>
       <input id="image" type="file" multiple="false" (change)="chargeImage($event)" #imageInput accept="image/*">
@@ -60,16 +68,16 @@
   </form>
 
   <!-- Aquí iran las temporadas -->
-  <div class="row" *ngIf="serieSaved">
+  <div class="row" *ngIf="serieSaved && !deletedSerie">
     <div class="col-md-3">
       <button class="btn btn-warning btn-block" (click)="addSeason()">Añadir Temporada</button>
     </div>
     <div class="col-md-3">
-      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="openModal(modalDeleteSeason)">Eliminar Temporada</button>
+      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="openModalToDeleteSeason(modalDeleteSeason)">Eliminar Temporada</button>
     </div>
   </div>
 
-  <div class="panel panel-default margint30px" *ngIf="serieSaved">
+  <div class="panel panel-default margint30px" *ngIf="serieSaved && !deletedSerie">
     <div class="panel-body">
 
       <!-- Botones si hay una temporada seleccionada -->
@@ -77,7 +85,7 @@
         <div class="col-md-2 col-md-offset-8">
           <button class="btn btn-warning btn-block" [disabled]="!seasonDtoSelected" (click)="openModalToAddEpisode(modalEpisode)">Añadir Episodio</button>
         </div>
-        <div class="col-md-2 col-md-offset-8">
+        <div class="col-md-2">
           <button class="btn btn-danger btn-block" [disabled]="!seasonDtoSelected || !listEpisode || listEpisode.length === 0" (click)="openModalToDeleteEpisode(modalDeleteEpisode)">Eliminar Episodio</button>
         </div>
       </div>
@@ -102,19 +110,22 @@
     </div>
   </div>
 
+  <div class="alert alert-success" *ngIf="deletedSerie">La serie se ha eliminado correctamente</div>
+
 </div>
 
 <!-- Modal eliminar temporada -->
 <ng-template #modalDeleteSeason>
 
   <div class="modal-header">
-    <h4 class="modal-title pull-left">¿Desea eliminar la última temporada creada?</h4>
+    <h4 class="modal-title pull-left">{{serieDto.name}} - Temporada {{seasonDtoSelected.number}}</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
+    <h2>¿Desea eliminar la temporada?</h2>
     <div class="row">
       <div class="col-md-6">
         <button (click)="modalRef.hide()" class="btn btn-primary btn-block">No</button>
@@ -180,6 +191,30 @@
       </div>
       <div class="col-md-6">
         <button (click)="deleteEpisode()" class="btn btn-danger btn-block">Si</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<!-- Modal eliminar serie -->
+<ng-template #modalDeleteSerie>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{serieDto.name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h2>¿Desea eliminar la serie?</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="modalRef.hide()" class="btn btn-primary btn-block">No</button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="deleteSerie()" class="btn btn-danger btn-block">Si</button>
       </div>
     </div>
   </div>
