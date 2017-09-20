@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.restWebService.RPlayer.converter.SeasonConverter;
 import org.restWebService.RPlayer.domain.Episode;
 import org.restWebService.RPlayer.domain.Season;
+import org.restWebService.RPlayer.domain.Serie;
 import org.restWebService.RPlayer.dto.SeasonDto;
 import org.restWebService.RPlayer.repository.SeasonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class SeasonService {
 	
 	@Autowired
 	private SeasonRepository seasonRepository;
+	
+	@Autowired
+	private SerieService serieService;
 	
 	@Autowired
 	private EpisodeService episodeService;
@@ -55,8 +59,9 @@ public class SeasonService {
 		SeasonDto res = new SeasonDto();
 		List<String> errores = verificaSeasonDto(seasonDto);
 		if(errores.isEmpty()){
-			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
 			Season entity = seasonConverter.convertDtoToEntity(seasonDto);
+			Serie serie = serieService.findOneEntity(seasonDto.getIdSerie());
+			entity.setSerie(serie);
 			Season seasonSaved = seasonRepository.save(entity);
 			res = seasonConverter.convertEntityToDto(seasonSaved);
 		}else{

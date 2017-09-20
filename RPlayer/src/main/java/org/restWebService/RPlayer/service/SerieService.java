@@ -95,6 +95,15 @@ public class SerieService {
 	}
 	
 	/**
+	 * Devuelve una Serie por su id
+	 * @param idSerie
+	 * @return
+	 */
+	public Serie findOneEntity(Long idSerie){
+		return serieRepository.findOne(idSerie);
+	}
+	
+	/**
 	 * Guarda o actualiza una película
 	 * @param serieDto
 	 * @return

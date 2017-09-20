@@ -3,6 +3,10 @@
   <!-- Form para crear la serie -->
   <form (ngSubmit)="saveSerie(serieForm)" #serieForm="ngForm">
 
+    <!-- la version y el id estaran presentes cuando la serie se este editando -->
+    <input *ngIf="serieDto.id" type="hidden" name="id" [(ngModel)]="serieDto.id" #id="ngModel">
+    <input *ngIf="serieDto.version" type="hidden" name="version" [(ngModel)]="serieDto.version" #version="ngModel">
+
     <div class="form-group">
       <label for="name">Name</label>
       <input id="name" name="name" class="form-control" type="text" [(ngModel)]="serieDto.name" #name="ngModel" placeholder="Name" required [rangeLength]="[1, 100]"/>
@@ -27,7 +31,7 @@
     </div>
 
     <div class="alert alert-danger" *ngIf="errorCrearSerie">{{errorCrearSerie}}</div>
-    <div class="alert alert-success" *ngIf="serieSaved">La serie se ha creado correctamente</div>
+    <div class="alert alert-success" *ngIf="serieModified">La serie se ha guardado correctamente</div>
 
   </form>
 
@@ -51,27 +55,27 @@
     </div>
 
     <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
-    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha editado correctamente</div>
+    <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
 
   </form>
 
   <!-- Aquí iran las temporadas -->
-  <div class="row">
+  <div class="row" *ngIf="serieSaved">
     <div class="col-md-3">
-      <button class="btn btn-warning btn-block">Añadir Temporada</button>
+      <button class="btn btn-warning btn-block" (click)="addSeason()">Añadir Temporada</button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-danger btn-block" [disabled]="!listSeason || listSeason.length === 0" (click)="deleteSeason()">Eliminar Temporada</button>
     </div>
   </div>
 
-  <div class="panel panel-default margint30px">
+  <div class="panel panel-default margint30px" *ngIf="serieSaved">
     <div class="panel-body">
 
       <!-- Botones para editar temporada -->
       <div class="row">
-        <div class="col-md-2 col-md-offset-6">
+        <div class="col-md-2 col-md-offset-8">
           <button class="btn btn-danger btn-block">Eliminar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-warning btn-block">Editar</button>
         </div>
         <div class="col-md-2">
           <button class="btn btn-primary btn-block">Añadir Episodio</button>

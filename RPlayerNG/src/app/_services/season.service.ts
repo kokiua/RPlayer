@@ -39,4 +39,16 @@ export class SeasonService {
     return response;
   }
 
+  /**
+   * elimina una temporada
+   * @param idSeason
+   * @returns {Observable<R|T>}
+   */
+  delete(idSeason: any) {
+    const url = Constants.API_ENDPOINT + 'season/delete/' + idSeason;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }

@@ -13,8 +13,10 @@ export class SerieComponent implements OnInit {
 
   // Modelo para crear la serie
   serieDto: any = {};
-  // Serie created
-  serieSaved = false;
+  // Indica si la serie ya esta guardada en bbdd
+  serieSaved = true;
+  // Indica si una serie se ha modificado correctamente
+  serieModified = false;
   // Indica si se esta procesando el guardado de la serie
   loadingSerie = false;
   // Indica si se ha producido un error al crear la serie
@@ -109,6 +111,7 @@ export class SerieComponent implements OnInit {
             this.serieDto = result;
             // Estara bien guardada si no devuelve errores
             this.serieSaved = this.serieDto.errores.length === 0;
+            this.serieModified = this.serieSaved;
             if (!this.serieSaved) {
               this.errorCrearSerie = 'Se ha producido un error al guardar la seriea';
             }
@@ -117,6 +120,7 @@ export class SerieComponent implements OnInit {
           },
           error => {
             this.loadingSerie = false;
+            this.serieModified = false;
             this.errorCrearSerie = 'Se ha producido un error al guardar la serie';
             console.log(error);
           },
@@ -169,6 +173,7 @@ export class SerieComponent implements OnInit {
             console.log('File Upload');
           },
           error => {
+            this.okImageAdd = false;
             this.errorImage = 'Se ha producido un error al subir la imagen';
             this.loadingImage = false;
             console.log(error);
@@ -197,6 +202,84 @@ export class SerieComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  /**
+   * Crea una temporada para la serie actual
+   */
+  addSeason() {
+    const idSerie = this.serieDto.id;
+    let number = 1;
+    if (this.listSeason.length > 0) {
+      number = this.listSeason[this.listSeason.length - 1].number + 1;
+    }
+    const seasonToAdd: any = {idSerie: idSerie, number: number};
+    this.seasonService.save(seasonToAdd).subscribe(
+      data => {
+        const seasonSaved = data;
+        if (seasonSaved.errores.length === 0) {
+          // La sesion se ha guardado correctamente
+          this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
+            dataSeason => {
+              this.listSeason = dataSeason;
+              // Como acabamos de crear la temporada, no tendra ningun capitulo
+              this.listEpisode = [];
+              this.episodeActive = 0;
+              if (this.listSeason.length > 0) {
+                // Seleccionaremos la temporada que se ha guaraddo
+                this.seasonActive = seasonSaved.number;
+              }
+            }, errorSeason => {
+              console.log(errorSeason);
+            }
+          );
+        }
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('Llamada terminada');
+      }
+    );
+  }
+
+  /**
+   * Elimina la ultima temporada de la serie
+   */
+  deleteSeason() {
+    if (this.listSeason && this.listSeason.length > 0){
+      const idSeason = this.listSeason[this.listSeason.length - 1].id;
+      this.seasonService.delete(idSeason).subscribe(
+        result => {
+          // La sesion se ha eliminado correctamente correctamente
+          this.seasonService.findByIdSerieOrderByNumberASC(this.serieDto.id).subscribe(
+            dataSeason => {
+              this.listSeason = dataSeason;
+              // No se mostrará ningun capitulo a no ser que existan temporadas con capitulos
+              this.listEpisode = [];
+              this.episodeActive = 0;
+              if (this.listSeason.length > 0) {
+                // Por defecto seleccionaremos la primera temporada, y ningun episodio
+                this.seasonActive = 1;
+                // Recupero los capitulos de la primera temporada
+                this.episodeService.findByIdSeasonOrderByNumberAsc(this.listSeason[0].id).subscribe(
+                  dataEpisode => this.listEpisode = dataEpisode
+                );
+              }
+            }, errorSeason => {
+              console.log(errorSeason);
+            }
+          );
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          console.log('Llamada terminada');
+        }
+      );
+    }
   }
 
 }

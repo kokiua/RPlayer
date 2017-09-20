@@ -41,7 +41,7 @@ public class FilmTypeService {
 	}
 	
 	/**
-	 * Devuelve un FilmType por su id, este metodo solo se debe utilizar para lanzar las pruebas
+	 * Devuelve un FilmType por su id
 	 * @param id
 	 * @return
 	 */
