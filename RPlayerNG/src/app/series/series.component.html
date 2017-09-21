@@ -11,8 +11,10 @@
 
       <div class="row">
         <div *ngFor="let s of listSerie" class="col-md-3 marginb4">
-          <img *ngIf="!s.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, s.id)">
-          <img *ngIf="s.image" width="100%" height="240px" src="data:image/png;base64,{{s.image}}" (click)="openModal(template, s.id)">
+          <div class="imageBorder">
+            <img *ngIf="!s.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, s.id)">
+            <img *ngIf="s.image" width="100%" height="240px" src="data:image/png;base64,{{s.image}}" (click)="openModal(template, s.id)">
+          </div>
           <div class="row">
             <div class="col-md-8">
               <h4>{{s.name}}</h4>
@@ -45,7 +47,6 @@
 
       <!-- Aqui van las temporadas -->
       <div class="col-md-3">
-        <h3>Temporadas:</h3>
         <div class="list-group">
           <button type="button" *ngFor="let sea of listSeason" [ngClass]="{'active': seasonActive == sea.number }" (click)="changeSeason(sea.id, sea.number)" class="list-group-item">Temporada {{sea.number}} </button>
         </div>
@@ -53,7 +54,6 @@
 
       <!-- Aqui van los episodios -->
       <div class="col-md-5">
-        <h3>Episodios:</h3>
         <div class="list-group">
           <button type="button" *ngFor="let e of listEpisode" (click)="startEpisode(e.id, e.number)" [ngClass]="{'active': episodeActive == e.number }" class="list-group-item">Episodio - {{e.number}} </button>
         </div>
@@ -63,7 +63,7 @@
       <div class="col-md-4">
         <!-- Row para la imagen-->
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 imageBorder">
             <img *ngIf="!serieDto.image" width="100%" height="300px" src="../../assets/images/default.png">
             <img *ngIf="serieDto.image" width="100%" height="300px" src="data:image/png;base64,{{serieDto.image}}">
           </div>

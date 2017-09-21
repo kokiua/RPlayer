@@ -23,8 +23,10 @@
 
           <div class="row">
             <div *ngFor="let f of listFilm" class="col-md-4 marginb4">
-              <img *ngIf="!f.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, f.id)">
-              <img *ngIf="f.image" width="100%" height="240px" src="data:image/png;base64,{{f.image}}" (click)="openModal(template, f.id)">
+              <div class="imageBorder">
+                <img *ngIf="!f.image" width="100%" height="240px" src="../../assets/images/default.png" (click)="openModal(template, f.id)">
+                <img *ngIf="f.image" width="100%" height="240px" src="data:image/png;base64,{{f.image}}" (click)="openModal(template, f.id)">
+              </div>
               <div class="row">
                 <div class="col-md-8">
                   <h4>{{f.name}}</h4>
@@ -61,7 +63,7 @@
 
       <div class="col-md-4">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 imageBorder">
             <img *ngIf="!filmDto.image" width="100%" height="300px" src="../../assets/images/default.png">
             <img *ngIf="filmDto.image" width="100%" height="300px" src="data:image/png;base64,{{filmDto.image}}">
           </div>
