@@ -38,7 +38,7 @@ public class EpisodeController {
 	public EpisodeDto startFilm(@PathVariable("idEpisode") Long idEpisode){
 		EpisodeDto dto = episodeService.findOne(idEpisode);
 		if(dto!=null && dto.getEpisodePath()!=null) {
-			ProcessBuilder pb = new ProcessBuilder("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", dto.getEpisodePath());
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getEpisodePath() + "\"");
 			try {
 				pb.start();
 			} catch (IOException e) {
@@ -48,6 +48,17 @@ public class EpisodeController {
 			}
 		}		
 		return dto;
+	}
+	
+	@RequestMapping(value = "/stopEmision", method = RequestMethod.GET)
+	public void stopEmision(){
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", "killall omxplayer.bin");
+		try {
+			pb.start();
+		} catch (IOException e) {
+			System.err.println("Se ha producido un error al intentar parar el video el video");
+			e.printStackTrace();
+		}
 	}
 	
 }

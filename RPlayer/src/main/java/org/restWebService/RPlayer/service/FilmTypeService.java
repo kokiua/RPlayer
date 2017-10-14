@@ -31,7 +31,7 @@ public class FilmTypeService {
 			filmTypeRepository.deleteAll();
 			List<FilmType> listFilmType = new ArrayList<>();
 			listFilmType.add( new FilmType("Romantica"));
-			listFilmType.add( new FilmType("Droma"));
+			listFilmType.add( new FilmType("Drama"));
 			listFilmType.add( new FilmType("Acción"));
 			listFilmType.add( new FilmType("Aventura"));
 			listFilmType.add( new FilmType("Ciencia Ficción"));

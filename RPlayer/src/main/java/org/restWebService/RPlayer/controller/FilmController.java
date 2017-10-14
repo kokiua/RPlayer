@@ -58,7 +58,7 @@ public class FilmController {
 	public FilmDto startFilm(@PathVariable("idFilm") Long idFilm){
 		FilmDto dto = filmService.findOne(idFilm);
 		if(dto!=null && dto.getFilmPath()!=null) {
-			ProcessBuilder pb = new ProcessBuilder("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", dto.getFilmPath());
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getFilmPath() + "\"");
 			try {
 				pb.start();
 			} catch (IOException e) {
@@ -68,6 +68,17 @@ public class FilmController {
 			}
 		}		
 		return dto;
+	}
+	
+	@RequestMapping(value = "/stopEmision", method = RequestMethod.GET)
+	public void stopEmision(){
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", "killall omxplayer.bin");
+		try {
+			pb.start();
+		} catch (IOException e) {
+			System.err.println("Se ha producido un error al intentar parar el video el video");
+			e.printStackTrace();
+		}
 	}
 
 }

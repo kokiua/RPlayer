@@ -27,6 +27,7 @@ public class Application {
             	registry.addMapping("/film/save");
             	registry.addMapping("/film/uploadImage/*");
             	registry.addMapping("/film/startFilm/*");
+            	registry.addMapping("/film/stopEmision");
             	registry.addMapping("/serie/findAllOrderByNameAsc");
             	registry.addMapping("/serie/findOne/*");
             	registry.addMapping("/serie/save");
@@ -37,6 +38,7 @@ public class Application {
             	registry.addMapping("/season/delete/*");
             	registry.addMapping("/episode/findByIdSeasonOrderByNumberAsc/*");
             	registry.addMapping("/episode/startEpisode/*");
+            	registry.addMapping("/episode/stopEmision");
             	registry.addMapping("/episode/save");
             	registry.addMapping("/episode/delete/*");
             }
