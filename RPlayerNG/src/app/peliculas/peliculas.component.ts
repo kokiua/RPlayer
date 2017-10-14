@@ -136,6 +136,13 @@ export class PeliculasComponent implements OnInit {
   }
 
   /**
+   * Quita la película que actualmente se está reproducciendo
+   */
+  stopEmision() {
+    this.filmService.stopEmision().subscribe();
+  }
+
+  /**
    * Redirige a la crearPelicula actual
    */
   goToEditFilm() {

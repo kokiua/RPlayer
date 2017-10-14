@@ -134,6 +134,13 @@ export class SeriesComponent implements OnInit {
   }
 
   /**
+   * Quita la película que actualmente se está reproducciendo
+   */
+  stopEmision() {
+    this.episodeService.stopEmision().subscribe();
+  }
+
+  /**
    * Redirigimos a editar serie
    */
   goToEditSerie() {

@@ -39,6 +39,16 @@ export class EpisodeService {
   }
 
   /**
+   * Para la emision actual
+   */
+  stopEmision() {
+    const url = Constants.API_ENDPOINT + 'film/stopEmision';
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
+  /**
    * Call to APIRest to save a episode
    * @param episodeDto
    */

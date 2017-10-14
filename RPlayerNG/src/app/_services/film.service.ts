@@ -74,6 +74,16 @@ export class FilmService {
   }
 
   /**
+   * Para la emision actual
+   */
+  stopEmision() {
+    const url = Constants.API_ENDPOINT + 'film/stopEmision';
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
+  /**
    * elimina una crearPelicula
    * @param idFilm
    * @returns {Observable<R|T>}

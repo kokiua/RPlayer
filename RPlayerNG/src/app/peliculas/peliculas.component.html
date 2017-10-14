@@ -96,11 +96,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <button class="btn btn-danger btn-block" [disabled]="!filmDto.trailerUrl" (click)="openTrailerURL()">Ver Trailer</button>
+          <div class="col-md-4">
+            <button class="btn btn-warning btn-block" [disabled]="!filmDto.trailerUrl" (click)="openTrailerURL()">Ver Trailer</button>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <button class="btn btn-success btn-block" (click)="startFilm()">Ver Película</button>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-danger btn-block" (click)="stopEmision()">Parar Emisión</button>
           </div>
         </div>
       </div>
