@@ -38,7 +38,7 @@ public class EpisodeController {
 	public EpisodeDto startFilm(@PathVariable("idEpisode") Long idEpisode){
 		EpisodeDto dto = episodeService.findOne(idEpisode);
 		if(dto!=null && dto.getEpisodePath()!=null) {
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getEpisodePath() + "\"");
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getEpisodePath().replace("\"", "/") + "\"");
 			try {
 				pb.start();
 			} catch (IOException e) {

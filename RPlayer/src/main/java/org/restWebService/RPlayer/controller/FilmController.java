@@ -58,7 +58,7 @@ public class FilmController {
 	public FilmDto startFilm(@PathVariable("idFilm") Long idFilm){
 		FilmDto dto = filmService.findOne(idFilm);
 		if(dto!=null && dto.getFilmPath()!=null) {
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getFilmPath() + "\"");
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", "omxplayer -o hdmi " + "\"" + dto.getFilmPath().replace("\"", "/") + "\"");
 			try {
 				pb.start();
 			} catch (IOException e) {
